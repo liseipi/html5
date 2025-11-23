@@ -1,0 +1,38 @@
+
+// 弹窗
+.popup-box {
+  background: linear-gradient(180deg, #FFEBBD 0%, #FFFFFF 25%, #FFFFFF 50%, #FFFFFF 75%, #FFFFFF 100%);
+  box-shadow: 0px 24px 64px 0px rgba(0, 0, 0, 0.04);
+  border-radius: 36px 36px 36px 36px;
+  border: 2px solid #FFFFFF;
+}
+
+// 圆形缺口
+.notch-circle {
+  position: relative;
+}
+.notch-circle-left{
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 50%;
+  background-color: #1b2222;
+  position: absolute;
+  top: 20.5rem;
+  left: -0.6rem;
+}
+.notch-circle-right {
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 50%;
+  background-color: #232525;
+  position: absolute;
+  top: 20.5rem;
+  right: -0.6rem;
+}
+.notch-circle-line {
+  border: 1px dashed #F2F6FC;
+  position: absolute;
+  top: 140px;
+  z-index: 99;
+  width: 100%;
+}
