@@ -31,7 +31,7 @@ useHead({
     </div>
 
     <!--中奖-->
-    <div class="fixed inset-0 bg-black/85 flex flex-col items-center justify-center max-w-[18.75rem] mx-auto p-4 z-50">
+    <div class="fixed inset-0 bg-black/85 flex flex-col items-center justify-center max-w-[18.75rem] mx-auto p-4 z-50 hidden">
       <div class="popup-box w-full max-w-sm md:max-w-md px-2 pt-2 pb-6">
         <div class="text-center mb-[1rem]">
             <span
@@ -59,7 +59,7 @@ useHead({
     </div>
 
     <!--未中奖-->
-    <div class="fixed inset-0 bg-black/85 flex flex-col items-center justify-center max-w-[18.75rem] mx-auto p-4 z-50">
+    <div class="fixed inset-0 bg-black/85 flex flex-col items-center justify-center max-w-[18.75rem] mx-auto p-4 z-50 hidden">
       <div class="popup-box w-full max-w-sm md:max-w-md px-2 pt-2 pb-6">
         <div class="text-center mb-[1rem]">
             <span

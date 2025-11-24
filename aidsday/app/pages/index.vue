@@ -1,3 +1,30 @@
+<script setup lang="ts">
+import {useUserInfoStore} from '~/store/userStore';
+
+const openid = useCookie('openid');
+const userInfoStore = useUserInfoStore();
+
+let showRule = ref(false)
+
+let start = () => {
+  showRule.value = false
+  navigateTo({path: '/profile'})
+}
+
+//获取用户配置
+const getConfig = async () => {
+  const config = await useRequest<any>(`/wxh5/Index/getConfig`);
+  userInfoStore.userInfo = config.data.userinfo;
+}
+
+onMounted(() => {
+  //获取用户配置
+  if (openid.value) {
+    getConfig();
+  }
+});
+</script>
+
 <template>
   <div class="index-page">
     <div class="box">
@@ -7,10 +34,11 @@
       <span
           class="absolute right-0 top-[6.65rem] text-[0.7rem]
           w-[1.7rem] h-[4.2rem] bg-[#FFCA3C] hover:text-white rounded-s-lg
-          flex items-center justify-center px-1 text-center leading-[0.85rem]">活动规则</span>
+          flex items-center justify-center px-1 text-center leading-[0.85rem]"
+          v-on:click="showRule = true">活动规则</span>
       <img src="~/assets/image/index/men.png" class="absolute top-[14.5rem] left-[2.3rem] w-[6.2rem]" alt="men">
       <img src="~/assets/image/index/lady.png" class="absolute top-[15.5rem] right-[3.05rem] w-[7.1rem]" alt="lady">
-      <button class="absolute top-[28.5rem] left-[3.4rem] flex items-center justify-center
+      <button v-on:click="start" class="absolute top-[28.5rem] left-[3.4rem] flex items-center justify-center
                bg-[#FFCA3C] hover:bg-yellow-500 border-[#ffffff] border-[0.05rem]
                text-white text-[1.2rem] font-bold
                w-[12rem] h-[3rem]
@@ -23,7 +51,8 @@
               fill="#ffffff"></path>
         </svg>
       </button>
-      <div class="absolute top-[35rem] left-[5.2rem] flex flex-col items-center text-center text-[#2A7B51] text-[0.65rem] font-bold">
+      <div
+          class="absolute top-[35rem] left-[5.2rem] flex flex-col items-center text-center text-[#2A7B51] text-[0.65rem] font-bold">
         <span>广州市公共卫生委员会办公室</span>
         <span>（广州市卫生健康委员会）</span>
         <span>广州市卫生健康宣传教育中心</span>
@@ -32,7 +61,7 @@
     </div>
 
     <!--活动规则弹窗内容-->
-    <div class="fixed inset-0 bg-black bg-opacity-85 flex flex-col items-center justify-center p-6 z-50 hidden">
+    <div v-show="showRule" class="fixed inset-0 bg-black/85 flex flex-col items-center justify-center p-6 z-50">
       <div class="popup-box w-full max-w-sm md:max-w-md px-6 pt-2 pb-6">
         <div class="text-center mb-6">
             <span
@@ -61,7 +90,7 @@
           </ul>
         </div>
         <div class="text-center">
-          <button class="py-[0.65rem] px-[1.65rem] min-w-[10rem] text-white font-normal text-[0.75rem] rounded-full
+          <button v-on:click="start" class="py-[0.65rem] px-[1.65rem] min-w-[10rem] text-white font-normal text-[0.75rem] rounded-full
                            bg-yellow-400 hover:bg-yellow-500
                            transition duration-150 ease-in-out shadow-md
                            focus:outline-none focus:ring-4 focus:ring-yellow-300 focus:ring-opacity-50">
@@ -71,9 +100,10 @@
       </div>
 
       <div class="pt-8">
-        <button
-            class="mt-3 p-[0.15rem] rounded-full border-2 border-white text-white hover:bg-white hover:text-gray-800 transition">
-          <svg class="w-[1.5rem] h-[1.5rem]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <button v-on:click="showRule=false"
+                class="mt-3 p-[0.15rem] rounded-full border-2 border-white text-white hover:bg-white hover:text-gray-800 transition">
+          <svg class="w-[1.5rem] h-[1.5rem]" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+               xmlns="http://www.w3.org/2000/svg">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
           </svg>
         </button>
@@ -97,5 +127,3 @@
   @apply relative;
 }
 </style>
-<script setup lang="ts">
-</script>
