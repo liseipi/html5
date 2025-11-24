@@ -6,6 +6,17 @@ useHead({
 // 默认值设置为 -1，表示未选择
 let gender = ref<number>(-1); // 0: 小哥哥, 1: 小姐姐
 let age = ref<number>(-1); // 存储选中的年龄组起始值
+
+let tip = ref(false);
+const start = () => {
+  if (gender.value == -1 || age.value == -1) {
+    tip.value = true
+  } else {
+    tip.value = false
+    navigateTo({ path: '/questionnaire' });
+  }
+}
+
 </script>
 
 <template>
@@ -13,9 +24,9 @@ let age = ref<number>(-1); // 存储选中的年龄组起始值
     <img src="~/assets/image/profile/bg_cover.png" class="w-full" alt="bg">
 
     <div class="absolute top-0 left-0 w-full px-6">
-      <h2 class="text-[1.2rem] font-normal text-white pt-[5.5rem] leading-tight">请选择您的身份</h2>
+      <h2 class="text-[1.2rem] font-normal text-white pt-[4rem] leading-tight">请选择您的身份</h2>
 
-      <div class="flex gap-4 w-full max-w-xl pt-[1.6rem] mb-12">
+      <div class="flex gap-4 w-full max-w-xl pt-[1.6rem] mb-[1rem]">
         <div @click="gender = 0" class="flex-1 cursor-pointer">
           <div class="flex flex-col items-center">
             <div
@@ -69,7 +80,7 @@ let age = ref<number>(-1); // 存储选中的年龄组起始值
         </div>
       </div>
 
-      <h2 class="text-[1.2rem] font-normal text-white pt-[1.5rem] leading-tight">请选择您的年龄</h2>
+      <h2 class="text-[1.2rem] font-normal text-white pt-[1rem] leading-tight">请选择您的年龄</h2>
 
       <div class="grid grid-cols-3 gap-4 pt-[1.6rem] w-full max-w-xl">
         <div
@@ -127,6 +138,21 @@ let age = ref<number>(-1); // 存储选中的年龄组起始值
           61岁及以上
         </div>
       </div>
+
+      <div class="flex">
+        <button @click="start"
+                class="flex-1
+              px-[2.75rem] py-[0.6rem] mx-auto mt-[2rem]
+              text-[1rem] font-bold text-white
+              bg-gradient-to-r from-orange-500 to-amber-400 border border-white
+              rounded-full
+          "
+        >
+          开始答题
+        </button>
+      </div>
     </div>
+
+    <Toast v-if="tip" v-model:visible="tip" @close="tip = false" message="请选择身份和年龄!" />
   </div>
 </template>

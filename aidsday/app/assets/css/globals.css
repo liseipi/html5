@@ -32,3 +32,18 @@ body {
     margin: 0 auto;
     background-color: #52bdda;
 }
+
+/*动画，向右滑动后消失*/
+@theme {
+    --animate-slide-right-fade: slide-right-fade 0.4s ease-out forwards;
+    @keyframes slide-right-fade {
+        from {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateX(3rem);
+            opacity: 0;
+        }
+    }
+}

@@ -22,8 +22,8 @@ useHead({
             bg-gradient-to-t from-orange-500 to-amber-400
 
             shadow-xl rounded-full
-            transform transition-transform duration-150 hover:scale-105 active:scale-95 /* 悬停/点击动画 */
-            focus:outline-none focus:ring-4 focus:ring-orange-300 /* 焦点效果 */
+            transform transition-transform duration-150 hover:scale-105 active:scale-95
+            focus:outline-none focus:ring-4 focus:ring-orange-300
         "
       >
         点击抽奖
