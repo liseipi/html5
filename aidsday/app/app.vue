@@ -42,6 +42,7 @@ if (!shareData.value) {
       'updateTimelineShareData',
       'onMenuShareTimeline',
       'onMenuShareAppMessage',
+      'showOptionMenu',
     ] // 必填，需要使用的JS接口列表
   });
 

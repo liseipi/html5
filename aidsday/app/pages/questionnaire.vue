@@ -1,15 +1,38 @@
 <script setup lang="ts">
+import {useDatiStore} from '~/store/datiStore';
+
 useHead({
   title: '调查问卷',
 })
+
+const datiStore = useDatiStore();
+
+let qsTip = ref(true);
+let qsDom = ref(false);
+let statue = ref(false);
+
+const {rightnum, is_prize, prize_status} = reactive({...datiStore.dati});
+
+//第1步，确定
+const sure = () => {
+  qsTip.value = false;
+  qsDom.value = true;
+}
+
+//第2步，完成
+const done = () => {
+  qsDom.value = false;
+  statue.value = true;
+}
+
 </script>
 
 <template>
-  <div class="min-h-screen flex flex-col items-center bg-cover bg-center relative">
-    <img src="~/assets/image/dati/bg_cover.png" class="w-full" alt="bg">
+  <div class="min-h-[34rem] h-screen bg-[url(~/assets/image/dati/bg_cover.png)] bg-bottom bg-no-repeat bg-size-[18.75rem_34rem] relative">
+<!--    <img src="~/assets/image/dati/bg_cover.png" class="w-full" alt="bg">-->
 
     <!--调查问卷提示-->
-    <div class="fixed inset-0 flex flex-col items-center justify-center max-w-[18.75rem] mx-auto p-6 z-50 hidden">
+    <div v-show="qsTip" class="fixed inset-0 flex flex-col items-center justify-center max-w-[18.75rem] mx-auto p-6 z-50">
       <div class="popup-box w-full max-w-sm md:max-w-md px-6 pt-2 pb-6">
         <div class="text-center mb-[1rem]">
             <span
@@ -33,7 +56,7 @@ useHead({
           </ul>
         </div>
         <div class="text-center">
-          <button class="py-[0.65rem] px-[1.65rem] min-w-[10rem] text-white font-normal text-[1rem] rounded-full
+          <button @click="sure" class="py-[0.65rem] px-[1.65rem] min-w-[10rem] text-white font-normal text-[1rem] rounded-full
                            bg-yellow-400 hover:bg-yellow-500
                            transition duration-150 ease-in-out shadow-md
                            focus:outline-none focus:ring-4 focus:ring-yellow-300 focus:ring-opacity-50">
@@ -43,8 +66,8 @@ useHead({
       </div>
     </div>
 
-    <!--A卷-->
-    <div class="fixed inset-0 flex flex-col items-center justify-center max-w-[18.75rem] mx-auto p-4 z-50 hidden">
+    <!--问卷-->
+    <div v-show="qsDom" class="fixed inset-0 flex flex-col items-center justify-center max-w-[18.75rem] mx-auto p-4 z-50">
       <div class="popup-box w-full max-w-sm md:max-w-md px-3 pt-2 pb-6">
         <div class="text-center mb-[1rem]">
             <span class="inline-flex items-center justify-center p-2 rounded-full relative">
@@ -53,7 +76,7 @@ useHead({
         </div>
         <div class="mb-8">
           <div
-              class="relative z-20 scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-[#FFCA3C] scrollbar-track-slate-300 h-[var(--qsspacing)] overflow-y-scroll">
+              class="relative z-20 scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-[#FFCA3C] scrollbar-track-slate-300 max-h-[var(--qsspacing)] overflow-y-scroll">
 
             <div class="mb-6">
               <div class="space-y-[1rem]">
@@ -148,7 +171,7 @@ useHead({
           </div>
         </div>
         <div class="text-center">
-          <button class="py-[0.65rem] px-[1.65rem] min-w-[10rem] text-white font-normal text-[1rem] rounded-full
+          <button @click="done" class="py-[0.65rem] px-[1.65rem] min-w-[10rem] text-white font-normal text-[1rem] rounded-full
                            bg-yellow-400 hover:bg-yellow-500
                            transition duration-150 ease-in-out shadow-md
                            focus:outline-none focus:ring-4 focus:ring-yellow-300 focus:ring-opacity-50">
@@ -159,7 +182,7 @@ useHead({
     </div>
 
     <!--答题完成|达人-->
-    <div class="fixed inset-0 flex flex-col items-center justify-center max-w-[18.75rem] h-full mx-auto p-6 z-30 hidden">
+    <div v-show="statue && rightnum>=8" class="fixed inset-0 flex flex-col items-center justify-center max-w-[18.75rem] h-full mx-auto p-6 z-30">
       <div class="popup-box w-full max-w-sm md:max-w-md px-6 pt-2 pb-6 relative z-10">
         <div class="absolute left-[2.8rem] -top-[5rem] z-50">
           <img src="~/assets/image/qs/expert.png" class="w-[10.7rem]"  alt="expert">
@@ -169,8 +192,8 @@ useHead({
           <p class="text-xl font-semibold mb-2">太厉害了!</p>
           <p class="text-[0.75rem] text-gray-800 leading-relaxed">
             你以
-            <span class="text-orange-500 font-bold text-2xl">10</span>
-            题全对的战绩完美通关，
+            <span class="text-orange-500 font-bold text-2xl">{{rightnum}}</span>
+            题答对的战绩完美通关，
           </p>
           <p class="text-[0.75rem] text-gray-800 leading-relaxed mb-4">
             获得 <span class="text-red-500 font-bold">“防艾达人”</span> 称号!
@@ -187,11 +210,11 @@ useHead({
         </div>
 
         <div class="flex flex-row gap-2">
-          <button class="flex-1 py-[0.65rem] text-white font-normal text-[0.75rem] rounded-full
+          <button @click="navigateTo({path: '/share'})" class="flex-1 py-[0.65rem] text-white font-normal text-[0.75rem] rounded-full
                            bg-yellow-400 hover:bg-yellow-500">
             生成海报
           </button>
-          <button class="flex-1 py-[0.65rem] text-white font-normal text-[0.75rem] rounded-full
+          <button @click="navigateTo({path: '/lottery'})" class="flex-1 py-[0.65rem] text-white font-normal text-[0.75rem] rounded-full
                            bg-yellow-400 hover:bg-yellow-500">
             抽幸运红包
           </button>
@@ -199,7 +222,7 @@ useHead({
       </div>
     </div>
     <!--答题完成|同行者-->
-    <div class="fixed inset-0 flex flex-col items-center justify-center max-w-[18.75rem] h-full mx-auto p-6 z-30">
+    <div v-show="statue && rightnum<8" class="fixed inset-0 flex flex-col items-center justify-center max-w-[18.75rem] h-full mx-auto p-6 z-30">
       <div class="popup-box w-full max-w-sm md:max-w-md px-6 pt-2 pb-6 relative z-10">
         <div class="absolute left-[2.8rem] -top-[5rem] z-50">
           <img src="~/assets/image/qs/peers.png" class="w-[10.7rem]"  alt="peers">
@@ -209,7 +232,7 @@ useHead({
           <p class="text-[0.75rem] font-semibold mb-2">感谢你的积极参与！</p>
           <p class="text-[0.75rem] text-gray-800 leading-relaxed">
             你答对了
-            <span class="text-orange-500 font-bold text-2xl">5</span>
+            <span class="text-orange-500 font-bold text-2xl">{{rightnum}}</span>
             题，
           </p>
           <p class="text-[0.75rem] text-gray-800 leading-relaxed mb-4">
@@ -227,7 +250,7 @@ useHead({
         </div>
 
         <div class="flex flex-row gap-2">
-          <button class="flex-1 py-[0.65rem] text-white font-normal text-[0.75rem] rounded-full
+          <button @click="navigateTo({path: '/'})" class="flex-1 py-[0.65rem] text-white font-normal text-[0.75rem] rounded-full
                            bg-yellow-400 hover:bg-yellow-500">
             再学一次，马上进阶
           </button>

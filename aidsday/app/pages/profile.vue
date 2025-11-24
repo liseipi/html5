@@ -1,7 +1,11 @@
 <script setup lang="ts">
+import {useUserInfoStore} from '~/store/userStore';
+
 useHead({
   title: '填写个人资料',
 });
+
+const userInfoStore = useUserInfoStore();
 
 // 默认值设置为 -1，表示未选择
 let gender = ref<number>(-1); // 0: 小哥哥, 1: 小姐姐
@@ -13,8 +17,20 @@ const start = () => {
     tip.value = true
   } else {
     tip.value = false
-    navigateTo({ path: '/questionnaire' });
+    navigateTo({ path: '/dati' });
   }
+}
+
+const setGender = (value) => {
+  gender.value = value;
+  userInfoStore.setGender(value);
+}
+
+const setAge = (value) => {
+  age.value = value;
+  userInfoStore.setAge(value);
+
+  start();
 }
 
 </script>
@@ -25,9 +41,8 @@ const start = () => {
 
     <div class="absolute top-0 left-0 w-full px-6">
       <h2 class="text-[1.2rem] font-normal text-white pt-[4rem] leading-tight">请选择您的身份</h2>
-
       <div class="flex gap-4 w-full max-w-xl pt-[1.6rem] mb-[1rem]">
-        <div @click="gender = 0" class="flex-1 cursor-pointer">
+        <div @click="setGender(0)" class="flex-1 cursor-pointer">
           <div class="flex flex-col items-center">
             <div
                 class="w-full h-36 border-2 rounded-xl mb-4 flex items-center justify-center overflow-hidden transition duration-200"
@@ -52,8 +67,7 @@ const start = () => {
             </div>
           </div>
         </div>
-
-        <div @click="gender = 1" class="flex-1 cursor-pointer">
+        <div @click="setGender(1)" class="flex-1 cursor-pointer">
           <div class="flex flex-col items-center">
             <div
                 class="w-full h-36 border-2 rounded-xl mb-4 flex items-center justify-center overflow-hidden transition duration-200"
@@ -81,10 +95,9 @@ const start = () => {
       </div>
 
       <h2 class="text-[1.2rem] font-normal text-white pt-[1rem] leading-tight">请选择您的年龄</h2>
-
       <div class="grid grid-cols-3 gap-4 pt-[1.6rem] w-full max-w-xl">
         <div
-            @click="age = 0"
+            @click="setAge(0)"
             class="w-[5rem] h-[1.8rem] text-[0.7rem] flex items-center justify-center rounded-full cursor-pointer font-normal transition duration-150 ease-in-out"
             :class="{
             'bg-yellow-400 text-white border border-white font-bold': age === 0,        // 选中样式
@@ -95,7 +108,7 @@ const start = () => {
         </div>
 
         <div
-            @click="age = 18"
+            @click="setAge(18)"
             class="w-[5rem] h-[1.8rem] text-[0.7rem] flex items-center justify-center rounded-full cursor-pointer font-normal transition duration-150 ease-in-out"
             :class="{
             'bg-yellow-400 text-white border border-white font-bold': age === 18,        // 选中样式
@@ -106,7 +119,7 @@ const start = () => {
         </div>
 
         <div
-            @click="age = 26"
+            @click="setAge(26)"
             class="w-[5rem] h-[1.8rem] text-[0.7rem] flex items-center justify-center rounded-full cursor-pointer font-normal transition duration-150 ease-in-out"
             :class="{
             'bg-yellow-400 text-white border border-white font-bold': age === 26,        // 选中样式
@@ -117,7 +130,7 @@ const start = () => {
         </div>
 
         <div
-            @click="age = 41"
+            @click="setAge(41)"
             class="w-[5rem] h-[1.8rem] text-[0.7rem] flex items-center justify-center rounded-full cursor-pointer font-normal transition duration-150 ease-in-out"
             :class="{
             'bg-yellow-400 text-white border border-white font-bold': age === 41,        // 选中样式
@@ -128,7 +141,7 @@ const start = () => {
         </div>
 
         <div
-            @click="age = 61"
+            @click="setAge(61)"
             class="w-[5rem] h-[1.8rem] text-[0.7rem] flex items-center justify-center rounded-full cursor-pointer font-normal transition duration-150 ease-in-out"
             :class="{
             'bg-yellow-400 text-white border border-white font-bold': age === 61,        // 选中样式
@@ -139,18 +152,19 @@ const start = () => {
         </div>
       </div>
 
-      <div class="flex">
-        <button @click="start"
-                class="flex-1
-              px-[2.75rem] py-[0.6rem] mx-auto mt-[2rem]
-              text-[1rem] font-bold text-white
-              bg-gradient-to-r from-orange-500 to-amber-400 border border-white
-              rounded-full
-          "
-        >
-          开始答题
-        </button>
-      </div>
+<!--      <div class="flex">-->
+<!--        <button @click="start"-->
+<!--                class="flex-1-->
+<!--              px-[2.75rem] py-[0.6rem] mx-auto mt-[2rem]-->
+<!--              text-[1rem] font-bold text-white-->
+<!--              bg-gradient-to-r from-orange-500 to-amber-400 border border-white-->
+<!--              rounded-full-->
+<!--          "-->
+<!--        >-->
+<!--          开始答题-->
+<!--        </button>-->
+<!--      </div>-->
+
     </div>
 
     <Toast v-if="tip" v-model:visible="tip" @close="tip = false" message="请选择身份和年龄!" />

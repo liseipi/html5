@@ -47,3 +47,18 @@ body {
         }
     }
 }
+
+/*动画，从右侧滑入*/
+@theme {
+    --animate-slide-right-in: slide-right-in 0.4s ease-out forwards;
+    @keyframes slide-right-in {
+        from {
+            transform: translateX(2rem);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+}

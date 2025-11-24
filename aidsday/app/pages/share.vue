@@ -2,6 +2,19 @@
 useHead({
   title: '分享',
 })
+
+const wxShare = () => {
+  wx.ready(function () {
+    //更新：在分享前可以先更新分享的信息
+    // wx.updateAppMessageShareData({
+    //   title: newTitle,
+    //   desc: newDesc,
+    // });
+
+    // 触发：显示微信分享菜单
+    wx.showOptionMenu();  // 弹出微信右上角菜单（需在 jsApiList 中添加 'showOptionMenu'）
+  });
+}
 </script>
 
 <template>
@@ -9,11 +22,11 @@ useHead({
 
     <div class="min-h-[34rem] bg-black/85 flex flex-col items-center justify-center w-full h-screen mx-auto p-5 z-30">
       <div class="popup-box w-full px-5 pt-2 pb-2 relative z-10 notch-circle">
-        <div class="notch-circle-left"></div>
-        <div class="notch-circle-right"></div>
+        <div class="notch-circle-left [--notch-top:20rem]" style="--notch-top:20rem"></div>
+        <div class="notch-circle-right [--notch-top:20rem]"></div>
         <div class="flex justify-start items-center mb-4">
           <img src="https://via.placeholder.com/48x48/FF6B35/FFFFFF?text=👩" alt="用户头像"
-               class="w-[2.4rem] h-[2.4rem] rounded-full mr-3 border-2 border-white shadow-md">
+               class="w-[2.4rem] h-[2.4rem] text-[12px] rounded-full mr-3 border-2 border-white shadow-md">
           <h3 class="text-[1rem] font-bold text-gray-800">大脸喵</h3>
         </div>
 
@@ -40,7 +53,7 @@ useHead({
       </div>
 
       <div class="flex items-center justify-end pt-[1.3rem] space-x-[2rem]">
-        <button>
+        <button @click="wxShare">
           <img src="~/assets/image/weixin.png" class="w-[2.19rem]" alt="">
           <span class="text-[0.6rem] text-[#D1D1D1]">微信好友</span>
         </button>
@@ -59,6 +72,6 @@ useHead({
 
 <style scoped>
 .notch {
-  --line-position: 76%;
+  --line-position: 78%;
 }
 </style>
