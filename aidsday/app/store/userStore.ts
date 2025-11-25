@@ -7,9 +7,11 @@ export const useUserInfoStore = defineStore(
         let gender = ref<number>(0);
         let age = ref<number>(0);
         let userInfo = ref<userType>({
-            wxname: '',
-            wxheadpic: '',
-            count: 0
+            age: -1,
+            count: 1,
+            sex: -1,
+            wxheadpic: "",
+            wxname: ""
         });
 
         function setUserInfo(value: userType) {

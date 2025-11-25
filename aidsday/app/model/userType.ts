@@ -1,5 +1,7 @@
 export interface userType {
-    wxname: string;
-    wxheadpic: string;
+    age: number;
     count: number;
+    sex: number;
+    wxheadpic: string;
+    wxname: string;
 }
