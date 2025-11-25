@@ -1,37 +1,98 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 useHead({
   title: '幸运大抽奖',
 })
+
+const isSpinning = ref(false)
+const showWinModal = ref(false)
+const showLoseModal = ref(false)
+const plateRef = ref<HTMLElement | null>(null)
+
+// 6 个中奖区位置（每个区中心角度：假设 6 等分转盘，每 60 度一个）
+const winPositions = [60, 120, 180, 240, 300, 0] // 度，0 为指针指向位置
+
+const startSpin = () => {
+  if (isSpinning.value) return // 防止重复点击
+
+  isSpinning.value = true
+  showWinModal.value = false
+  showLoseModal.value = false
+
+  // 重置到 0 度（确保从头开始，避免上一次残留）
+  if (plateRef.value) {
+    plateRef.value.style.transition = 'none'
+    plateRef.value.style.transform = 'rotate(0deg)'
+  }
+
+  // 强制重绘（避免摇晃）
+  requestAnimationFrame(() => {
+    // 随机选择一个中奖位置（只停在中奖区）
+    const randomWinPos = winPositions[Math.floor(Math.random() * winPositions.length)]
+
+    // 随机生成旋转角度：5-8 圈 + 选中奖位置
+    const fullCircles = Math.floor(Math.random() * 4 + 5) * 360 // 5-8 圈
+    const totalRotation = fullCircles + randomWinPos
+
+    // 应用旋转到底盘
+    if (plateRef.value) {
+      plateRef.value.style.transition = 'transform 5s cubic-bezier(0.25, 0.46, 0.45, 0.94)' // 5s 平滑缓动
+      plateRef.value.style.transform = `rotate(${totalRotation}deg)`
+    }
+  })
+
+  // 动画结束后显示中奖结果（假设只停在中奖区，总是中奖）
+  // setTimeout(() => {
+  //   isSpinning.value = false
+  //   showWinModal.value = true // 或随机 showLoseModal.value = !win
+  // }, 5000) // 匹配 5s 动画时长
+}
+
+// 关闭模态框（返回首页逻辑，可路由跳转）
+const closeModal = () => {
+  showWinModal.value = false
+  showLoseModal.value = false
+
+  // 重置转盘状态（允许重复抽奖）
+  if (plateRef.value) {
+    plateRef.value.style.transition = 'none'
+    plateRef.value.style.transform = 'rotate(0deg)'
+  }
+
+  // 示例：router.push('/') // 如果用 Vue Router
+}
 </script>
 
 <template>
   <div class="min-h-[34rem] h-screen bg-[url(~/assets/image/dati/bg_cover.png)] bg-bottom bg-no-repeat bg-size-[18.75rem_34rem] relative">
-    <img src="~/assets/image/lottery/title.png" class="w-[15.15rem] pt-[4.55rem] mx-auto"  alt="title">
+    <img src="~/assets/image/lottery/title.png" class="w-[15.15rem] pt-[4.55rem] pb-[1rem] mx-auto"  alt="title">
 
-    <div class="relative flex flex-col">
-      <img src="~/assets/image/lottery/prize-plate.png" class="w-[15.15rem] mx-auto pt-[0.8rem]" alt="prize-plate">
-      <img src="~/assets/image/lottery/go.png" class="absolute top-[50%] left-[50%] -ml-[2.2rem] -mt-[2.2rem] w-[4.4rem]" alt="go">
+    <div class="relative flex flex-col pt-[0.8rem]">
+      <img ref="plateRef" src="~/assets/image/lottery/prize-plate.png" class="w-[15.15rem] mx-auto" alt="prize-plate">
+      <img @click="startSpin" src="~/assets/image/lottery/go.png" class="absolute top-[50%] left-[50%] -ml-[2.2rem] -mt-[2.2rem] w-[4.4rem]" alt="go">
     </div>
 
     <div class="flex flex-col justify-center">
       <button
+          @click="startSpin"
+          :disabled="isSpinning"
           class="
-            px-[2.75rem] py-[0.6rem] mx-auto mt-[1.2rem]
+            px-[2.75rem] py-[0.6rem] mx-auto mt-[1.8rem]
             text-[1.2rem] font-bold text-white
 
             bg-gradient-to-t from-orange-500 to-amber-400
 
             shadow-xl rounded-full
             transform transition-transform duration-150 hover:scale-105 active:scale-95
-            focus:outline-none focus:ring-4 focus:ring-orange-300
+            focus:outline-none focus:ring-4 focus:ring-orange-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100
         "
       >
-        点击抽奖
+        {{ isSpinning ? '抽奖中...' : '点击抽奖' }}
       </button>
     </div>
 
     <!--中奖-->
-    <div class="fixed inset-0 bg-black/85 flex flex-col items-center justify-center max-w-[18.75rem] mx-auto p-4 z-50 hidden">
+    <div v-if="showWinModal" class="fixed inset-0 bg-black/85 flex flex-col items-center justify-center max-w-[18.75rem] mx-auto p-4 z-50">
       <div class="popup-box w-full max-w-sm md:max-w-md px-2 pt-2 pb-6">
         <div class="text-center mb-[1rem]">
             <span
@@ -48,7 +109,7 @@ useHead({
           <span class="text-[0.65rem] text-[#999]">您的微信红包已发送，请在微信聊天界面查收</span>
         </div>
         <div class="text-center">
-          <button class="py-[0.45rem] px-[4.35rem] min-w-[10rem] text-white font-normal text-[0.8rem] rounded-full
+          <button @click="closeModal" class="py-[0.45rem] px-[4.35rem] min-w-[10rem] text-white font-normal text-[0.8rem] rounded-full
                            bg-yellow-400 hover:bg-yellow-500
                            transition duration-150 ease-in-out shadow-md
                            focus:outline-none focus:ring-4 focus:ring-yellow-300 focus:ring-opacity-50">
@@ -59,7 +120,7 @@ useHead({
     </div>
 
     <!--未中奖-->
-    <div class="fixed inset-0 bg-black/85 flex flex-col items-center justify-center max-w-[18.75rem] mx-auto p-4 z-50 hidden">
+    <div v-if="showLoseModal" class="fixed inset-0 bg-black/85 flex flex-col items-center justify-center max-w-[18.75rem] mx-auto p-4 z-50">
       <div class="popup-box w-full max-w-sm md:max-w-md px-2 pt-2 pb-6">
         <div class="text-center mb-[1rem]">
             <span
@@ -76,7 +137,7 @@ useHead({
           <span class="text-[0.65rem] text-[#999] text-center">偷偷告诉你，没抽中的玩家在活动期内每天都可以答题抽奖赢红包哦！</span>
         </div>
         <div class="text-center">
-          <button class="py-[0.45rem] px-[4.35rem] min-w-[10rem] text-white font-normal text-[0.8rem] rounded-full
+          <button @click="closeModal" class="py-[0.45rem] px-[4.35rem] min-w-[10rem] text-white font-normal text-[0.8rem] rounded-full
                            bg-yellow-400 hover:bg-yellow-500
                            transition duration-150 ease-in-out shadow-md
                            focus:outline-none focus:ring-4 focus:ring-yellow-300 focus:ring-opacity-50">
@@ -89,5 +150,9 @@ useHead({
 </template>
 
 <style scoped>
-
+/* 转盘初始无旋转，确保中心旋转避免摇晃 */
+img[ref="plateRef"] {
+  transform-origin: center center;
+  will-change: transform; /* 优化动画性能 */
+}
 </style>
