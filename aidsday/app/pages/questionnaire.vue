@@ -133,7 +133,7 @@ onMounted(() => {
             </span>
         </div>
         <div class="mb-[1rem]">
-          <div
+          <div style="--qsspacing: calc(100vh - 12rem);"
               class="relative z-20 scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-[#FFCA3C] scrollbar-track-slate-300 max-h-[var(--qsspacing)] overflow-y-scroll">
 
             <div class="mb-[0.5rem]">

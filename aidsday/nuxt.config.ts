@@ -23,6 +23,12 @@ export default defineNuxtConfig({
         '~/assets/css/style.scss',
     ],
 
+    modules: [
+        '@nuxtjs/tailwindcss',
+        '@pinia/nuxt',
+        'pinia-plugin-persistedstate/nuxt',
+    ],
+
     runtimeConfig: {
         public: {
             apiBaseURL: 'https://hiv.xhwxpos.com',
@@ -32,14 +38,9 @@ export default defineNuxtConfig({
         }
     },
 
-    modules: [
-        '@pinia/nuxt',
-        'pinia-plugin-persistedstate/nuxt',
-    ],
-
     vite: {
         plugins: [
-            await import('@tailwindcss/vite').then(({default: tailwindcssVite}) => tailwindcssVite()),
+            // await import('@tailwindcss/vite').then(({default: tailwindcssVite}) => tailwindcssVite()),
         ],
     },
 
