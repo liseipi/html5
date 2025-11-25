@@ -10,7 +10,7 @@
   <Transition name="toast-slide">
     <div
         v-if="visible"
-        class="fixed top-2 flex items-center w-full max-w-[14rem] p-1 border border-white bg-gray-800/20 rounded-2xl z-50"
+        class="fixed top-2 left-[50%] flex items-center w-full max-w-[14rem] -ml-[7rem] p-1 border border-white bg-gray-800/20 rounded-2xl z-50"
         role="alert"
         aria-live="polite"
     >

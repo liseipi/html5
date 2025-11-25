@@ -16,22 +16,12 @@ const { wxheadpic, wxname } = reactive({...userInfoStore.userInfo});
 const { rightnum } = reactive({...datiStore.dati});
 
 //微信分享
+let shareGuide = ref<HTMLElement | null>(null);
 const wxShare = () => {
-  console.log(111)
-  wx.ready(function () {
-    //更新：在分享前可以先更新分享的信息
-    // wx.updateAppMessageShareData({
-    //   title: newTitle,
-    //   desc: newDesc,
-    // });
-
-    // 触发：显示微信分享菜单
-    // 弹出微信右上角菜单（需在 jsApiList 中添加 'showOptionMenu'）
-    wx.showOptionMenu({
-      withShareTicket: true,
-      // menus: ['shareAppMessage', 'shareTimeline']
-    });
-  });
+  shareGuide.value!.style.display = 'block';
+}
+const closeShare = () => {
+  shareGuide.value!.style.display = 'none';
 }
 
 // 日期
@@ -109,9 +99,13 @@ const generateHtmlImage = async () => {
 }
 
 // 下载图片函数
+let tip = ref(false);
 const downloadImage = () => {
-  console.log(canvas)
-  console.log(generatedImg)
+  tip.value = true;
+
+  //下面的功能在微信H5页面中不可用
+  /*
+  //判断图片先生成完成
   if (!canvas || !generatedImg) {
     alert('请先生成图片！');
     return;
@@ -137,6 +131,7 @@ const downloadImage = () => {
 
     console.log('下载成功！');
   }, 'image/png', 1.0); // 质量 1.0
+  */
 }
 
 onMounted(async () => {
@@ -195,6 +190,12 @@ onMounted(async () => {
         </button>
       </div>
     </div>
+
+    <div ref="shareGuide" @click="closeShare" class="fixed top-0 inset-0 bg-black/85 hidden">
+      <img src="~/assets/image/share.jpeg" class="w-full rounded-b-lg" alt="share" />
+    </div>
+
+    <Toast v-if="tip" v-model:visible="tip" @close="tip = false" message="请长按保存图片!" />
   </div>
 </template>
 
