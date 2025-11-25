@@ -28,10 +28,11 @@ if (!shareData.value) {
   }
 
   wx.config({
-    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+    debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
     appId: shareData.value.signPackage.appId, // 必填，公众号的唯一标识
     timestamp: shareData.value.signPackage.timestamp, // 必填，生成签名的时间戳
     nonceStr: shareData.value.signPackage.nonceStr, // 必填，生成签名的随机串
+    // rawString: shareData.value.signPackage.rawString,//
     signature: shareData.value.signPackage.signature,// 必填，签名
     jsApiList: [
       'updateAppMessageShareData',
@@ -46,43 +47,24 @@ if (!shareData.value) {
 
 //第3步：应用微信分享
 wx.ready(function () {
-  //需在用户可能点击分享按钮前就先调用
+  // 配置成功后调用
+  // wx.showOptionMenu();  // 显示右上角菜单，包括分享按钮
+  // 自定义分享内容（分享时生效）
   wx.updateAppMessageShareData({
     title: shareData.value.title, // 分享标题
     desc: shareData.value.desc, // 分享描述
-    // link: shareData.value.url,
-    link: window.location.href,
+    link: shareData.value.url, // link: window.location.href,
     imgUrl: shareData.value.imgUrl, // 分享图标
     success: function () {
       // showToast('分享成功')
     }
   });
-
+  // 朋友圈分享
   wx.updateTimelineShareData({
     title: shareData.value.title,
-    link: window.location.href,
-    imgUrl: shareData.value.imgUrl,
     desc: shareData.value.desc,
-    success: function () {
-      // showToast('分享成功')
-    }
-  });
-
-  wx.onMenuShareTimeline({
-    title: shareData.value.title, // 分享标题
-    desc: shareData.value.desc, // 分享描述
-    link: window.location.href,
-    imgUrl: shareData.value.imgUrl, // 分享图标
-    success: function () {
-      // showToast('分享成功')
-    }
-  });
-
-  wx.onMenuShareAppMessage({
-    title: shareData.value.title,
-    link: window.location.href,
+    link: shareData.value.imgUrl,
     imgUrl: shareData.value.imgUrl,
-    desc: shareData.value.desc,
     success: function () {
       // showToast('分享成功')
     }

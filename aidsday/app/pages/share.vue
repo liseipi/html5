@@ -15,6 +15,7 @@ const datiStore = useDatiStore();
 const { wxheadpic, wxname } = reactive({...userInfoStore.userInfo});
 const { rightnum } = reactive({...datiStore.dati});
 
+//微信分享
 const wxShare = () => {
   console.log(111)
   wx.ready(function () {
@@ -25,7 +26,11 @@ const wxShare = () => {
     // });
 
     // 触发：显示微信分享菜单
-    wx.showOptionMenu();  // 弹出微信右上角菜单（需在 jsApiList 中添加 'showOptionMenu'）
+    // 弹出微信右上角菜单（需在 jsApiList 中添加 'showOptionMenu'）
+    wx.showOptionMenu({
+      withShareTicket: true,
+      // menus: ['shareAppMessage', 'shareTimeline']
+    });
   });
 }
 
