@@ -15,15 +15,71 @@ const {rightnum, is_prize, prize_status} = reactive({...datiStore.dati});
 
 //第1步，确定
 const sure = () => {
+  if(tip.value == '') return;
   qsTip.value = false;
   qsDom.value = true;
 }
 
 //第2步，完成
-const done = () => {
+let doneState = ref(false);
+const done = async () => {
+  if(questionData.value.length != answerData.value.length) {
+    doneState.value = true;
+    return false;
+  }
+
+  await postAnswer();
+
   qsDom.value = false;
   statue.value = true;
 }
+
+let type = ref('A');
+let tip = ref('');
+let questionData = ref([]);
+let answerData = ref([]);
+//获取答题
+const getQuestion = async () => {
+  try {
+    const res = await useRequest(`/wxh5/index/getquestionnaire`);
+    if (res.status === 0 && res.data) {
+      type.value = res.data.type;
+      tip.value = res.data.tip;
+      questionData.value = res.data.list;
+      answerData.value = [];
+    }
+  } catch (err) {
+
+  }
+}
+
+//选择答题项
+const changeOption = (option, item) => {
+  const existingIndex = answerData.value.findIndex(entry => entry.questionbank_ids === item.id);
+  if (existingIndex !== -1) {
+    answerData.value[existingIndex].answer = option.key;
+  } else {
+    answerData.value.push({ questionbank_ids: item.id, answer: option.key });
+  }
+}
+
+//提交问卷
+const postAnswer = async () => {
+  let questionbank_ids = answerData.value.map(item => item.questionbank_ids).join(',');
+  let answer = answerData.value.map(item => item.answer).join(',');
+  const res = await useRequest(`/wxh5/index/postQuestionnaire`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'multipart/form-data', // 开启后，上传文件会出错
+    },
+    query: {questionbank_ids, answer}
+  });
+}
+
+//初始
+onMounted(() => {
+  getQuestion();
+})
 
 </script>
 
@@ -44,16 +100,18 @@ const done = () => {
                 <img src="~/assets/image/star.png" class="w-[0.6rem] mt-1" alt="star">
             </span>
         </div>
-        <div class="mb-8">
-          <ul class="text-base/6">
-            <li class="flex items-start pb-[1rem]">
-              <span
-                  class="text-[0.7rem] text-gray-800">接下来还有一份调查问卷，一共5道题，希望大家抽空填写一下（答题时间预计小于一分钟）。</span>
-            </li>
-            <li class="flex items-start">
-              <span class="text-[0.7rem] text-gray-800">本次调查问卷不记名，仅作为学术研究使用。调查问卷的选择情况不计入本次防艾达人挑战赛的积分，请大家根据自己的认识情况填写。感谢大家！</span>
-            </li>
-          </ul>
+        <div class="mb-[1rem]">
+          <div v-if="tip" class="text-[0.7rem]/6">
+            {{tip}}
+          </div>
+          <div v-else class="min-h-[6rem] flex justify-center items-center">
+            <svg class="mr-3 -ml-1 size-5 animate-spin text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none"
+                 viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"></circle>
+              <path class="opacity-75" fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+          </div>
         </div>
         <div class="text-center">
           <button @click="sure" class="py-[0.65rem] px-[1.65rem] min-w-[10rem] text-white font-normal text-[1rem] rounded-full
@@ -71,100 +129,29 @@ const done = () => {
       <div class="popup-box w-full max-w-sm md:max-w-md px-3 pt-2 pb-6">
         <div class="text-center mb-[1rem]">
             <span class="inline-flex items-center justify-center p-2 rounded-full relative">
-                <span class="text-yellow-600 font-bold text-[0.85rem] px-2">A问卷</span>
+                <span class="text-yellow-600 font-bold text-[0.85rem] px-2">{{type}}问卷</span>
             </span>
         </div>
-        <div class="mb-8">
+        <div class="mb-[1rem]">
           <div
               class="relative z-20 scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-[#FFCA3C] scrollbar-track-slate-300 max-h-[var(--qsspacing)] overflow-y-scroll">
 
-            <div class="mb-6">
+            <div class="mb-[0.5rem]">
               <div class="space-y-[1rem]">
-                <div class="space-y-[1rem]">
-                  <p class="font-medium text-[0.7rem] text-gray-800 leading-relaxed">
-                    1. 艾滋病病毒感染者和艾滋病患者是否将其感染状况告知配偶或者与有性关系者，是他们的自由，不受法律约束吗?(单选)
-                  </p>
+                <div class="space-y-[1rem]" v-for="(item, index) in questionData" :key="index">
+                  <div class="font-medium text-[0.7rem] text-gray-800 leading-relaxed" v-html="item.content"></div>
                   <div class="space-y-[1rem]">
-                    <label
+                    <label v-for="option in item.option" :key="option.key" @click="changeOption(option, item)"
                         class="flex items-start text-gray-700 cursor-pointer rounded-lg hover:bg-gray-50 transition">
-                      <input type="radio" name="q1" value="A"
+                      <input type="radio" :name="`q${index}`" :value="option.key"
                              class="mt-[0.1rem] mr-3 w-3 h-3 text-yellow-500 focus:ring-yellow-400 border-gray-300">
                       <span class="text-[0.65rem]">
-                      <span class="mr-1">A.</span>
-                      是，是否告知完全取决于个人意愿
-                  </span>
-                    </label>
-
-                    <label
-                        class="flex items-start text-gray-700 cursor-pointer rounded-lg hover:bg-gray-50 transition">
-                      <input type="radio" name="q1" value="B"
-                             class="mt-[0.1rem] mr-3 w-3 h-3 text-yellow-500 focus:ring-yellow-400 border-yellow-500"
-                             checked>
-                      <span class="text-[0.65rem]">
-                      <span class="mr-1">B.</span>
-                      如果严格采取防护措施，可不告知
-                  </span>
-                    </label>
-
-                    <label
-                        class="flex items-start text-gray-700 cursor-pointer rounded-lg hover:bg-gray-50 transition">
-                      <input type="radio" name="q1" value="C"
-                             class="mt-[0.1rem] mr-3 w-3 h-3 text-yellow-500 focus:ring-yellow-400 border-gray-300">
-                      <span class="text-[0.65rem]">
-                        <span class="mr-1">C.</span>
-                        应当告知，但可通过医疗卫生机构代为沟通
-                    </span>
-                    </label>
-
-                    <label
-                        class="flex items-start text-gray-700 cursor-pointer rounded-lg hover:bg-gray-50 transition">
-                      <input type="radio" name="q1" value="D"
-                             class="mt-[0.1rem] mr-3 w-3 h-3 text-yellow-500 focus:ring-yellow-400 border-gray-300">
-                      <span class="text-[0.65rem]">
-                      <span class="mr-1">D.</span>
-                      不知道
-                    </span>
+                        <span class="mr-1">{{option.key}}.</span>{{option.content}}
+                      </span>
                     </label>
                   </div>
                 </div>
 
-                <div class="space-y-[1rem]">
-                  <p class="font-medium text-[0.7rem] text-gray-800 leading-relaxed">
-                    2. 医疗卫生机构可以因就诊者是艾滋病病毒感染者或者艾滋病病人而推诿或者拒绝对其其他疾病进行治疗吗?(单选)
-                  </p>
-                  <div class="space-y-[1rem]">
-                    <label
-                        class="flex items-start text-gray-700 cursor-pointer rounded-lg hover:bg-gray-50 transition">
-                      <input type="radio" name="q2" value="A"
-                             class="mt-[0.1rem] mr-3 w-3 h-3 text-yellow-500 focus:ring-yellow-400 border-gray-300">
-                      <span class="text-[0.65rem]">
-                      <span class="mr-1">A.</span>
-                      是
-                  </span>
-                    </label>
-
-                    <label
-                        class="flex items-start text-gray-700 cursor-pointer rounded-lg hover:bg-gray-50 transition">
-                      <input type="radio" name="q2" value="B"
-                             class="mt-[0.1rem] mr-3 w-3 h-3 text-yellow-500 focus:ring-yellow-400 border-yellow-500"
-                             checked>
-                      <span class="text-[0.65rem]">
-                      <span class="mr-1">B.</span>
-                      否
-                  </span>
-                    </label>
-
-                    <label
-                        class="flex items-start text-gray-700 cursor-pointer rounded-lg hover:bg-gray-50 transition">
-                      <input type="radio" name="q2" value="C"
-                             class="mt-[0.1rem] mr-3 w-3 h-3 text-yellow-500 focus:ring-yellow-400 border-gray-300">
-                      <span class="text-[0.65rem]">
-                        <span class="mr-1">C.</span>
-                        不知道
-                    </span>
-                    </label>
-                  </div>
-                </div>
               </div>
 
             </div>
@@ -175,7 +162,7 @@ const done = () => {
                            bg-yellow-400 hover:bg-yellow-500
                            transition duration-150 ease-in-out shadow-md
                            focus:outline-none focus:ring-4 focus:ring-yellow-300 focus:ring-opacity-50">
-            确定
+            完成答题
           </button>
         </div>
       </div>
@@ -258,5 +245,6 @@ const done = () => {
       </div>
     </div>
 
+    <Toast v-if="doneState" v-model:visible="doneState" @close="doneState = false" message="请完成问卷内容!" />
   </div>
 </template>

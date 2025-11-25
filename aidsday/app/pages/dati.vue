@@ -30,10 +30,15 @@ let optionKey = ref(''); //用户选择的项：A/B/C
 let datiStatue = ref(false); //正在答题状态
 let answerStatue = ref(false); //答题 对/错 状态
 let questionIndex = ref(0); //正在回答的题号
-const changeOption = (option, item) => {
+const changeOption = async (option, item) => {
   optionKey.value = option.key;
   questionIndex.value = item.id;
   datiStatue.value = true;
+
+  //回答错误里内容滚动回到顶部
+  await nextTick();
+  tipDom.value?.scrollTo({ top: 0, behavior: 'smooth' });
+
   //选择后立即计算回答
   answerStatue.value = calcAnswer(item.answer);
 }
@@ -46,7 +51,7 @@ const calcAnswer = (answer) => {
 //答题结果
 let endQuest = ref(false);
 let endQuestData = reactive({
-  right_num: 0,
+  rightnum: 0,
   msg: '',
   is_prize: 0,
   prize_status: 0
@@ -86,13 +91,16 @@ const postAnswer = async () => {
     answerMsg.value = res.data.msg;
   }
 
-  //临时测试
-  // endQuestData = Object.assign(endQuestData, {
-  //   right_num: 0,
-  //   is_prize: 1,
-  //   prize_status: 0
-  // });
-  // console.log(endQuestData);
+}
+
+//显示锦囊
+let showTip = ref(false);
+let tipDom = ref<HTMLElement | null>(null);
+let tipText = computed(() => {
+  return questionData.value[answerData.value.length];
+})
+let showTipText = async () => {
+  showTip.value = true;
 }
 
 //初始
@@ -105,12 +113,12 @@ onMounted(() => {
   <div class="min-h-screen flex flex-col items-center bg-cover bg-center relative">
     <img src="~/assets/image/dati/bg_cover.png" class="w-full" alt="bg">
 
-    <img v-if="gender==1" src="~/assets/image/dati/girl.png"
-         class="absolute z-20 top-[4.6rem] w-[4.45rem] left-[2.25rem]" alt="girl">
-    <img v-if="gender==0" src="~/assets/image/dati/boy.png"
+    <img v-if="gender==1" src="~/assets/image/dati/boy.png"
          class="absolute z-20 top-[4.6rem] w-[4.45rem] left-[2.25rem]" alt="boy">
+    <img v-if="gender==2" src="~/assets/image/dati/girl.png"
+         class="absolute z-20 top-[4.6rem] w-[4.45rem] left-[2.25rem]" alt="girl">
 
-    <img src="~/assets/image/dati/tips.png" v-if="questionData.length>0"
+    <img @click="showTipText" src="~/assets/image/dati/tips.png" v-if="questionData.length>0"
          class="animate-bounce absolute top-[4.6rem] w-[4.6rem] right-0" alt="tips">
 
     <div v-if="questionData.length>0" class="absolute top-[7.1rem] left-[8.1rem]">
@@ -131,8 +139,8 @@ onMounted(() => {
         <div v-else>
           <div class="min-h-[16rem]" v-for="(item, index) in questionData" :key="index"
                v-show="answerData.length==index">
-            <div class="text-[0.85rem] font-semibold pt-[1.5rem] text-gray-800">{{ item.content }}</div>
-            <div class="space-y-[0.8rem] pt-[1.2rem]">
+            <div class="text-[0.85rem] font-semibold pt-[1.5rem] text-gray-800" v-html="item.content"></div>
+            <div class="space-y-[0.8rem] py-[1.2rem]">
               <div v-for="(option, i) in item.option" :key="i" @click="changeOption(option, item)"
                    class="px-4 py-2 rounded-xl shadow-sm hover:border-blue-400 flex"
                    :class="{
@@ -172,7 +180,7 @@ onMounted(() => {
     </div>
 
     <!--学习防艾锦囊-->
-    <div class="fixed inset-0 bg-black/85 flex flex-col items-center justify-center p-6 z-50 hidden">
+    <div v-show="showTip" class="fixed inset-0 bg-black/85 flex flex-col items-center justify-center p-6 z-50">
       <div class="popup-box w-full max-w-sm md:max-w-md px-6 pt-2 pb-6">
         <div class="text-center mb-[1rem]">
             <span
@@ -184,25 +192,11 @@ onMounted(() => {
                 <img src="~/assets/image/star.png" class="w-[0.6rem] mt-1" alt="star">
             </span>
         </div>
-        <div class="mb-8">
-          <ul>
-            <li class="flex items-start">
-              <span class="text-[0.7rem] leading-none mr-2">•</span>
-              <span class="text-[0.7rem] text-gray-800">艾滋病是一种危害大、病死率高的重大传染病，目前既不可治愈，也没有疫苗。艾滋病是 HIV 感染的最严重形式。</span>
-            </li>
-            <li class="flex items-start">
-              <span class="text-[0.7rem] leading-none mr-2">•</span>
-              <span class="text-[0.7rem] text-gray-800">HIV通过通过性接触、血液和母婴三种途径传播，其中性传播是我国感染的最主要传播途径。日常接触如握手、吃饭、拥抱、公用卫生间等不会传播艾滋病病毒。蚊虫叮咬不会传播艾滋病病毒。</span>
-            </li>
-            <li class="flex items-start">
-              <span class="text-[0.7rem] leading-none mr-2">•</span>
-              <span
-                  class="text-[0.7rem] text-gray-800">HIV感染者和艾滋病患者都是艾滋病的受害者，应该得到理解和关心，但故意传播艾滋病的行为既不道德，也要承担法律责任。</span>
-            </li>
-          </ul>
+        <div class="mb-[1rem]">
+          <div class="space-y-1 text-[0.7rem] text-gray-800" v-html="tipText?.tip"></div>
         </div>
         <div class="text-center">
-          <button class="py-[0.65rem] px-[1.65rem] min-w-[10rem] text-white font-normal text-[0.75rem] rounded-full
+          <button @click="showTip=false" class="py-[0.65rem] px-[1.65rem] min-w-[10rem] text-white font-normal text-[0.75rem] rounded-full
                            bg-yellow-400 hover:bg-yellow-500
                            transition duration-150 ease-in-out shadow-md
                            focus:outline-none focus:ring-4 focus:ring-yellow-300 focus:ring-opacity-50">
@@ -212,7 +206,7 @@ onMounted(() => {
       </div>
 
       <div class="pt-8">
-        <button
+        <button @click="showTip=false"
             class="mt-3 p-[0.15rem] rounded-full border-2 border-white text-white hover:bg-white hover:text-gray-800 transition">
           <svg class="w-[1.5rem] h-[1.5rem]" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                xmlns="http://www.w3.org/2000/svg">
@@ -227,8 +221,8 @@ onMounted(() => {
          class="fixed inset-0 bg-black/85 flex flex-col items-center justify-center p-6 z-50">
       <div class="popup-box w-full max-w-sm md:max-w-md px-6 pt-2 pb-6 relative">
         <div class="absolute -top-[8.2rem]">
-          <img v-show="gender==0" src="~/assets/image/dati/boy_correct.png" class="w-[11.75rem]" alt="boy_correct">
-          <img v-show="gender==1" src="~/assets/image/dati/girl_correct.png" class="w-[11.75rem]" alt="girl_correct">
+          <img v-show="gender==1" src="~/assets/image/dati/boy_correct.png" class="w-[11.75rem]" alt="boy_correct">
+          <img v-show="gender==2" src="~/assets/image/dati/girl_correct.png" class="w-[11.75rem]" alt="girl_correct">
         </div>
         <div class="flex flex-col justify-center items-center mb-8">
           <img src="~/assets/image/dati/correct.png" class="w-[3rem]" alt="correct">
@@ -249,30 +243,16 @@ onMounted(() => {
          class="fixed inset-0 bg-black/85 flex flex-col items-center justify-center p-6 z-50">
       <div class="popup-box w-full max-w-sm md:max-w-md px-6 pt-2 pb-6 relative">
         <div class="absolute left-[2rem] -top-[7rem]">
-          <img v-show="gender==0" src="~/assets/image/dati/boy_mistake.png" class="w-[10.7rem]" alt="boy_mistake">
-          <img v-show="gender==1" src="~/assets/image/dati/girl_mistake.png" class="w-[10.7rem]" alt="girl_mistake">
+          <img v-show="gender==1" src="~/assets/image/dati/boy_mistake.png" class="w-[10.7rem]" alt="boy_mistake">
+          <img v-show="gender==2" src="~/assets/image/dati/girl_mistake.png" class="w-[10.7rem]" alt="girl_mistake">
         </div>
         <div class="flex flex-col justify-center items-center pt-[1rem] mb-[1.25rem]">
           <img src="~/assets/image/dati/mistake.png" class="w-[3rem]" alt="mistake">
           <span class="text-[1.2rem] text-[#AECD42]">回答错误</span>
         </div>
-        <div
+        <div ref="tipDom"
             class="scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-[#FFCA3C] scrollbar-track-slate-300 mb-4 h-[10.5rem] overflow-y-scroll">
-          <ul class="h-full">
-            <li class="flex items-start">
-              <span class="text-[0.7rem] leading-none mr-2">•</span>
-              <span class="text-[0.7rem] text-gray-800">艾滋病是一种危害大、病死率高的重大传染病，目前既不可治愈，也没有疫苗。艾滋病是 HIV 感染的最严重形式。</span>
-            </li>
-            <li class="flex items-start">
-              <span class="text-[0.7rem] leading-none mr-2">•</span>
-              <span class="text-[0.7rem] text-gray-800">HIV通过通过性接触、血液和母婴三种途径传播，其中性传播是我国感染的最主要传播途径。日常接触如握手、吃饭、拥抱、公用卫生间等不会传播艾滋病病毒。蚊虫叮咬不会传播艾滋病病毒。</span>
-            </li>
-            <li class="flex items-start">
-              <span class="text-[0.7rem] leading-none mr-2">•</span>
-              <span
-                  class="text-[0.7rem] text-gray-800">HIV感染者和艾滋病患者都是艾滋病的受害者，应该得到理解和关心，但故意传播艾滋病的行为既不道德，也要承担法律责任。</span>
-            </li>
-          </ul>
+          <div class="space-y-1 text-[0.7rem] text-gray-800" v-html="tipText?.tip"></div>
         </div>
         <div class="text-center">
           <button @click="nextQuestion" class="py-[0.65rem] px-[1.65rem] min-w-[10rem] text-white font-normal text-[0.75rem] rounded-full
