@@ -1,21 +1,17 @@
 <script setup lang="ts">
-const openid = useCookie('openid');
 
 //第1步：用户授权
-if (!openid.value) {
-  if (process.env.NODE_ENV === 'development') {
-    openid.value = 'o-WGWwlaQu7Xrko7hTfG85anK83g'
-  } else {
-    const res = await useRequest('/wxh5/Index/jsLogin', {
-      params: {
-        callbackurl: encodeURIComponent(window.location.href),
-      }
-    });
-    if (res.status == 0 && res.data) {
-      console.log(res.data);
-      let response = res.data;
-      window.location.href = response.url;
+// development || production
+if (process.env.NODE_ENV === 'production') {
+  const res = await useRequest('/wxh5/Index/jsLogin', {
+    params: {
+      callbackurl: encodeURIComponent(window.location.href),
     }
+  });
+  if (res.status == 0 && res.data) {
+    console.log(res.data);
+    let response = res.data;
+    window.location.href = response.url;
   }
 }
 
