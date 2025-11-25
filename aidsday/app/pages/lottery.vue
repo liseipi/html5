@@ -61,6 +61,16 @@ const closeModal = () => {
 
   // 示例：router.push('/') // 如果用 Vue Router
 }
+
+//获取抽奖
+const getLucky = async () => {
+  const res = await useRequest(`/wxh5/index/postPrize`);
+  console.log(res)
+}
+
+onMounted(() => {
+  getLucky()
+})
 </script>
 
 <template>
@@ -69,7 +79,7 @@ const closeModal = () => {
 
     <div class="relative flex flex-col pt-[0.8rem]">
       <img ref="plateRef" src="~/assets/image/lottery/prize-plate.png" class="w-[15.15rem] mx-auto" alt="prize-plate">
-      <img @click="startSpin" src="~/assets/image/lottery/go.png" class="absolute top-[50%] left-[50%] -ml-[2.2rem] -mt-[2.2rem] w-[4.4rem]" alt="go">
+      <img @click="startSpin" src="~/assets/image/lottery/go.png" class="absolute top-[50%] left-[50%] -ml-[2rem] -mt-[2rem] w-[4rem]" alt="go">
     </div>
 
     <div class="flex flex-col justify-center">

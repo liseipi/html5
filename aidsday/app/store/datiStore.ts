@@ -8,7 +8,7 @@ export const useDatiStore = defineStore(
         let dati = ref<datiType>({
             rightnum: 0,
             msg: '',
-            is_prize: 0,
+            can_prize: 0,
             prize_status: 0
         });
 

@@ -11,7 +11,7 @@ let qsTip = ref(true);
 let qsDom = ref(false);
 let statue = ref(false);
 
-const {rightnum, is_prize, prize_status} = reactive({...datiStore.dati});
+const {rightnum, can_prize} = reactive({...datiStore.dati});
 
 //第1步，确定
 const sure = () => {
@@ -201,7 +201,7 @@ onMounted(() => {
                            bg-yellow-400 hover:bg-yellow-500">
             生成海报
           </button>
-          <button @click="navigateTo({path: '/lottery'})" class="flex-1 py-[0.65rem] text-white font-normal text-[0.75rem] rounded-full
+          <button v-show="can_prize==1" @click="navigateTo({path: '/lottery'})" class="flex-1 py-[0.65rem] text-white font-normal text-[0.75rem] rounded-full
                            bg-yellow-400 hover:bg-yellow-500">
             抽幸运红包
           </button>
