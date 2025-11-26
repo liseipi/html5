@@ -168,7 +168,7 @@ onMounted(async () => {
         <hr class="border-t border-dashed border-gray-200 my-2"/>
 
         <div class="flex items-center justify-end">
-          <span class="text-[0.8rem]">长按识别，参加防艾达 人挑战赛赢红包➡️</span>
+          <span class="text-[0.8rem]">长按识别，参加防艾达 人挑战赛赢红包 ➡️</span>
           <img src="~/assets/image/qrcode.png" class="w-[4rem]" alt="qrcode">
         </div>
 

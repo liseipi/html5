@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import {ref} from 'vue'
+
 useHead({
   title: '幸运大抽奖',
 })
@@ -9,10 +10,23 @@ const showWinModal = ref(false)
 const showLoseModal = ref(false)
 const plateRef = ref<HTMLElement | null>(null)
 
+let prize = reactive({
+  can_prize: 0,
+  name: '',
+  prize_id: 6, // 1:谢谢参与，2:0.8，3:1.8，4:2.8，5:3.8，6:5.8
+  prizelog_id: '',
+});
+
 // 6 个中奖区位置（每个区中心角度：假设 6 等分转盘，每 60 度一个）
-const winPositions = [60, 120, 180, 240, 300, 0] // 度，0 为指针指向位置
+const winPositions = [180, 120, 60, 0, 300, 240]; // 度，0 为指针指向位置
+const amount = [0, 0.8, 1.8, 2.8, 3.8, 5.8];
 
 const startSpin = () => {
+  // if (prize.can_prize == 0) {
+  //   alert('您已经达到抽奖次数!');
+  //   return false;
+  // }
+
   if (isSpinning.value) return // 防止重复点击
 
   isSpinning.value = true
@@ -28,7 +42,7 @@ const startSpin = () => {
   // 强制重绘（避免摇晃）
   requestAnimationFrame(() => {
     // 随机选择一个中奖位置（只停在中奖区）
-    const randomWinPos = winPositions[Math.floor(Math.random() * winPositions.length)]
+    const randomWinPos = winPositions[prize.prize_id - 1]
 
     // 随机生成旋转角度：5-8 圈 + 选中奖位置
     const fullCircles = Math.floor(Math.random() * 4 + 5) * 360 // 5-8 圈
@@ -42,10 +56,14 @@ const startSpin = () => {
   })
 
   // 动画结束后显示中奖结果（假设只停在中奖区，总是中奖）
-  // setTimeout(() => {
-  //   isSpinning.value = false
-  //   showWinModal.value = true // 或随机 showLoseModal.value = !win
-  // }, 5000) // 匹配 5s 动画时长
+  setTimeout(() => {
+    isSpinning.value = false
+    if (prize.prize_id > 1) {
+      showWinModal.value = true
+    } else {
+      showLoseModal.value = true
+    }
+  }, 5000) // 匹配 5s 动画时长
 }
 
 // 关闭模态框（返回首页逻辑，可路由跳转）
@@ -59,7 +77,7 @@ const closeModal = () => {
     plateRef.value.style.transform = 'rotate(0deg)'
   }
 
-  // 示例：router.push('/') // 如果用 Vue Router
+  navigateTo({path: '/'});
 }
 
 //获取抽奖
@@ -74,12 +92,14 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="min-h-[34rem] h-screen bg-[url(~/assets/image/dati/bg_cover.png)] bg-bottom bg-no-repeat bg-size-[18.75rem_34rem] relative">
-    <img src="~/assets/image/lottery/title.png" class="w-[15.15rem] pt-[4.55rem] pb-[1rem] mx-auto"  alt="title">
+  <div
+      class="min-h-[34rem] h-screen bg-[url(~/assets/image/dati/bg_cover.png)] bg-bottom bg-no-repeat bg-size-[18.75rem_34rem] relative">
+    <img src="~/assets/image/lottery/title.png" class="w-[15.15rem] pt-[4.55rem] pb-[1rem] mx-auto" alt="title">
 
     <div class="relative flex flex-col pt-[0.8rem]">
       <img ref="plateRef" src="~/assets/image/lottery/prize-plate.png" class="w-[15.15rem] mx-auto" alt="prize-plate">
-      <img @click="startSpin" src="~/assets/image/lottery/go.png" class="absolute top-[50%] left-[50%] -ml-[2rem] -mt-[2rem] w-[4rem]" alt="go">
+      <img @click="startSpin" src="~/assets/image/lottery/go.png"
+           class="absolute top-[50%] left-[50%] -ml-[2rem] -mt-[2rem] w-[4rem]" alt="go">
     </div>
 
     <div class="flex flex-col justify-center">
@@ -102,7 +122,8 @@ onMounted(() => {
     </div>
 
     <!--中奖-->
-    <div v-if="showWinModal" class="fixed inset-0 bg-black/85 flex flex-col items-center justify-center max-w-[18.75rem] mx-auto p-4 z-50">
+    <div v-if="showWinModal"
+         class="fixed inset-0 bg-black/85 flex flex-col items-center justify-center max-w-[18.75rem] mx-auto p-4 z-50">
       <div class="popup-box w-full max-w-sm md:max-w-md px-2 pt-2 pb-6">
         <div class="text-center mb-[1rem]">
             <span
@@ -115,7 +136,8 @@ onMounted(() => {
             </span>
         </div>
         <div class="mb-[1rem] flex flex-col items-center">
-          <span class="text-[0.7rem] text-gray-800 text-center mb-[2rem]">获得 <span class="text-orange-500 font-bold text-3xl">10</span> 元红包</span>
+          <span class="text-[0.7rem] text-gray-800 text-center mb-[2rem]">
+            获得 <span class="text-orange-500 font-bold text-3xl">{{amount[prize.prize_id-1]}}</span> 元红包</span>
           <span class="text-[0.65rem] text-[#999]">您的微信红包已发送，请在微信聊天界面查收</span>
         </div>
         <div class="text-center">
@@ -130,7 +152,8 @@ onMounted(() => {
     </div>
 
     <!--未中奖-->
-    <div v-if="showLoseModal" class="fixed inset-0 bg-black/85 flex flex-col items-center justify-center max-w-[18.75rem] mx-auto p-4 z-50">
+    <div v-if="showLoseModal"
+         class="fixed inset-0 bg-black/85 flex flex-col items-center justify-center max-w-[18.75rem] mx-auto p-4 z-50">
       <div class="popup-box w-full max-w-sm md:max-w-md px-2 pt-2 pb-6">
         <div class="text-center mb-[1rem]">
             <span
@@ -144,7 +167,8 @@ onMounted(() => {
         </div>
         <div class="mb-[1rem] flex flex-col items-center">
           <span class="text-[1rem] text-gray-800 text-center mb-[1rem]">感谢你的参与</span>
-          <span class="text-[0.65rem] text-[#999] text-center">偷偷告诉你，没抽中的玩家在活动期内每天都可以答题抽奖赢红包哦！</span>
+          <span
+              class="text-[0.65rem] text-[#999] text-center">偷偷告诉你，没抽中的玩家在活动期内每天都可以答题抽奖赢红包哦！</span>
         </div>
         <div class="text-center">
           <button @click="closeModal" class="py-[0.45rem] px-[4.35rem] min-w-[10rem] text-white font-normal text-[0.8rem] rounded-full
