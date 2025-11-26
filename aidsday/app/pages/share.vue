@@ -143,6 +143,45 @@ const onClose = () => {
   }
 }
 
+const link = ref('https://hiv.xhwxpos.com/html/'); // 要复制的链接
+const copied = ref(false); // 状态：是否已复制
+const copyLink = async () => {
+  try {
+    await navigator.clipboard.writeText(link.value);
+    copied.value = true;
+    // 可选：1秒后重置状态
+    setTimeout(() => { copied.value = false; }, 1000);
+  } catch (err) {
+    console.error('复制失败：', err);
+    // Fallback for older browsers
+    fallbackCopyTextToClipboard(link.value);
+  }
+};
+
+// Fallback 方法（兼容旧浏览器）
+function fallbackCopyTextToClipboard(text) {
+  const textArea = document.createElement('textarea');
+  textArea.value = text;
+  textArea.style.top = '0';
+  textArea.style.left = '0';
+  textArea.style.position = 'fixed';
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+  try {
+    const successful = document.execCommand('copy');
+    if (successful) {
+      copied.value = true;
+      setTimeout(() => { copied.value = false; }, 1000);
+    } else {
+      console.error('Fallback: 复制失败');
+    }
+  } catch (err) {
+    console.error('Fallback: 复制失败', err);
+  }
+  document.body.removeChild(textArea);
+}
+
 onMounted(async () => {
   await generateHtmlImage();
 })
@@ -202,7 +241,7 @@ onMounted(async () => {
           <img src="~/assets/image/xizai.png" class="w-[2.19rem]" alt="">
           <span class="text-[0.6rem] text-[#D1D1D1]">保存图片</span>
         </button>
-        <button>
+        <button @click="copyLink">
           <img src="~/assets/image/link.png" class="w-[2.19rem]" alt="">
           <span class="text-[0.6rem] text-[#D1D1D1]">生成链接</span>
         </button>
@@ -214,6 +253,7 @@ onMounted(async () => {
     </div>
 
     <Toast v-if="tip" v-model:visible="tip" @close="tip = false" message="请长按保存图片!" />
+    <Toast v-if="copied" v-model:visible="copied" @close="copied = false" message="已复制链接，请在微信聊天窗口中发送并打开。" />
   </div>
 </template>
 

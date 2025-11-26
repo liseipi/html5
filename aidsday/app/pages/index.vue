@@ -91,7 +91,7 @@ onMounted(() => {
       <div v-show="showRule" class="fixed inset-0 bg-black/85 flex flex-col items-center justify-center p-6 z-50">
         <Transition name="popup-content">
           <div v-if="showRule"
-               class="popup-box w-full max-w-sm md:max-w-md px-6 pt-2 pb-6 bg-white rounded-xl shadow-2xl">
+               class="popup-box w-full max-w-[18.75rem] px-6 pt-2 pb-6 bg-white rounded-xl shadow-2xl">
             <div class="text-center mb-6">
                 <span
                     class="inline-flex items-center justify-center p-2 rounded-full relative">

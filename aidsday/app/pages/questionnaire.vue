@@ -157,7 +157,7 @@ onMounted(() => {
                            v-show="option.content"
                            class="flex items-start text-gray-700 cursor-pointer rounded-lg hover:bg-gray-50 transition">
                       <input type="radio" :name="`q${index}`" :value="option.key"
-                             class="mt-[0.1rem] ml-1 mr-2 w-3 h-3 text-yellow-500 focus:ring-yellow-400 border-gray-300">
+                             class="flex-none mt-[0.1rem] ml-1 mr-2 w-3 h-3 text-yellow-500 focus:ring-yellow-400 border-gray-300">
                       <span class="text-[0.65rem]">
                         <span class="mr-1">{{ option.key }}.</span>{{ option.content }}
                       </span>

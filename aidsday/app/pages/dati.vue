@@ -177,7 +177,7 @@ onMounted(() => {
 
     <!--学习防艾锦囊-->
     <div v-show="showTip" class="fixed inset-0 bg-black/85 flex flex-col items-center justify-center p-6 z-50">
-      <div class="popup-box w-full max-w-sm md:max-w-md px-6 pt-2 pb-6">
+      <div class="popup-box max-w-[18.75rem] px-6 pt-2 pb-6">
         <div class="text-center mb-[1rem]">
             <span
                 class="inline-flex items-center justify-center p-2 rounded-full relative">
@@ -215,7 +215,7 @@ onMounted(() => {
     <!--回答正确-->
     <div v-show="datiStatue&&answerStatue"
          class="fixed inset-0 bg-black/85 flex flex-col items-center justify-center p-6 z-50">
-      <div class="popup-box w-full max-w-sm md:max-w-md px-6 pt-2 pb-6 relative">
+      <div class="popup-box max-w-[18.75rem] px-6 pt-2 pb-6 relative">
         <div class="absolute -top-[8.2rem]">
           <img v-show="gender==1" src="~/assets/image/dati/boy_correct.png" class="w-[11.75rem]" alt="boy_correct">
           <img v-show="gender==2" src="~/assets/image/dati/girl_correct.png" class="w-[11.75rem]" alt="girl_correct">
@@ -237,7 +237,7 @@ onMounted(() => {
     <!--回答错误-->
     <div v-show="datiStatue&&!answerStatue"
          class="fixed inset-0 bg-black/85 flex flex-col items-center justify-center p-6 z-50">
-      <div class="popup-box w-full max-w-sm md:max-w-md px-6 pt-2 pb-6 relative">
+      <div class="popup-box max-w-[18.75rem] px-6 pt-2 pb-6 relative">
         <div class="absolute left-[2rem] -top-[7rem]">
           <img v-show="gender==1" src="~/assets/image/dati/boy_mistake.png" class="w-[10.7rem]" alt="boy_mistake">
           <img v-show="gender==2" src="~/assets/image/dati/girl_mistake.png" class="w-[10.7rem]" alt="girl_mistake">
