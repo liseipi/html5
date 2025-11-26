@@ -14,14 +14,19 @@ let start = () => {
     gotoDom.value.classList.add('animate-slide-right-fade');
   }
   setTimeout(() => {
-    navigateTo({ path: '/profile' });
+    // 判断已经填写用户信息
+    if (!userInfoStore.infoDone) {
+      navigateTo({path: '/profile'});
+    } else {
+      navigateTo({path: '/dati'});
+    }
   }, 600);
 }
 
 //获取用户配置
 const getConfig = async () => {
   const config = await useRequest<any>(`/wxh5/Index/getConfig`);
-  userInfoStore.userInfo = config.data.userinfo;
+  userInfoStore.setUserInfo(config.data.userinfo);
 }
 
 onMounted(() => {
@@ -85,7 +90,8 @@ onMounted(() => {
     <Transition name="popup">
       <div v-show="showRule" class="fixed inset-0 bg-black/85 flex flex-col items-center justify-center p-6 z-50">
         <Transition name="popup-content">
-          <div v-if="showRule" class="popup-box w-full max-w-sm md:max-w-md px-6 pt-2 pb-6 bg-white rounded-xl shadow-2xl">
+          <div v-if="showRule"
+               class="popup-box w-full max-w-sm md:max-w-md px-6 pt-2 pb-6 bg-white rounded-xl shadow-2xl">
             <div class="text-center mb-6">
                 <span
                     class="inline-flex items-center justify-center p-2 rounded-full relative">
@@ -204,6 +210,7 @@ onMounted(() => {
 .popup-enter-active, .popup-leave-active {
   transition: opacity 0.3s ease-in-out;
 }
+
 .popup-enter-from, .popup-leave-to {
   opacity: 0;
 }
@@ -211,6 +218,7 @@ onMounted(() => {
 .popup-content-enter-active, .popup-content-leave-active {
   transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
 }
+
 .popup-content-enter-from, .popup-content-leave-to {
   transform: scale(0.8);
 }

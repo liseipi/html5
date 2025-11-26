@@ -16,10 +16,15 @@ export default defineNuxtConfig({
                 {src: '/html/js/jweixin-1.6.0.js'}
             ]
         },
+        pageTransition: {
+            name: 'slide-right', // 定义过渡名称
+            mode: 'in-out'       // 旧页面先出，新页面再进
+        },
     },
 
     css: [
         '~/assets/css/globals.css',
+        '~/assets/css/page-transition.css',
         '~/assets/css/style.scss',
     ],
 

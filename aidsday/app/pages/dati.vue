@@ -71,7 +71,6 @@ const nextQuestion = () => {
 }
 
 //提交回答问题
-// let answerMsg = ref('');
 const postAnswer = async () => {
   let questionbank_ids = answerData.value.map(item => item.questionbank_ids).join(',');
   let answer = answerData.value.map(item => item.answer).join(',');
@@ -83,14 +82,10 @@ const postAnswer = async () => {
     query: {questionbank_ids, answer}
   });
   if (res.status == 0 && res.data) {
-    // answerMsg.value = res.data.msg;
     endQuestData = Object.assign(endQuestData, res.data);
     datiStore.setDati(res.data);
     navigateTo({path: '/questionnaire'});
-  } else {
-    answerMsg.value = res.data.msg;
   }
-
 }
 
 //显示锦囊
@@ -142,6 +137,7 @@ onMounted(() => {
             <div class="text-[0.85rem] font-semibold pt-[1.5rem] text-gray-800" v-html="item.content"></div>
             <div class="space-y-[0.8rem] py-[1.2rem]">
               <div v-for="(option, i) in item.option" :key="i" @click="changeOption(option, item)"
+                   v-show="option.content"
                    class="px-4 py-2 rounded-xl shadow-sm hover:border-blue-400 flex"
                    :class="{
                       'border-[0.05rem] border-[#FFCA3C] bg-yellow-50': optionKey === option.key,

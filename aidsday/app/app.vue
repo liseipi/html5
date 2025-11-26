@@ -76,6 +76,7 @@ wx.ready(function () {
   });
 
 });
+
 </script>
 
 <template>

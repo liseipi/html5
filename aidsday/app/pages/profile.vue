@@ -20,6 +20,7 @@ const start = async () => {
 
     // 先保存用户信息
     await sendProfile();
+    userInfoStore.setInfoDone(true);
 
     navigateTo({ path: '/dati' });
   }
@@ -38,7 +39,7 @@ const setAge = (value: number) => {
 }
 
 const sendProfile = async () => {
-  const userRes = await useRequest<any>(`/wxh5/Index/saveUserInfo`, {
+  await useRequest<any>(`/wxh5/Index/saveUserInfo`, {
     method: 'POST',
     body: {
       sex: gender,

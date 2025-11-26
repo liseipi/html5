@@ -6,6 +6,8 @@ export const useUserInfoStore = defineStore(
     () => {
         let gender = ref<number>(0);
         let age = ref<number>(0);
+        let infoDone = ref(false);
+        let qsDone = ref(false);
         let userInfo = ref<userType>({
             age: -1,
             count: 1,
@@ -23,8 +25,16 @@ export const useUserInfoStore = defineStore(
         function setAge(value: number) {
             age.value = value;
         }
+        function setQs(value: boolean) {
+            qsDone.value = value;
+        }
+        function setInfoDone(value: boolean) {
+            infoDone.value = value;
+        }
 
-        return {setUserInfo, setGender, setAge, gender, age, userInfo};
+        return {
+            setUserInfo, setGender, setAge, setQs, setInfoDone,
+            gender, age, userInfo, qsDone, infoDone};
     }, {
         persist: {
             storage: piniaPluginPersistedstate.localStorage(),

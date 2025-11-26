@@ -9,6 +9,7 @@ useHead({
   title: '分享',
 })
 
+const router = useRouter()
 const userInfoStore = useUserInfoStore();
 const datiStore = useDatiStore();
 
@@ -134,6 +135,14 @@ const downloadImage = () => {
   */
 }
 
+const onClose = () => {
+  if (router.options.history.state.back) {
+    router.back()
+  } else {
+    navigateTo('/')  // 回首页或其他默认页
+  }
+}
+
 onMounted(async () => {
   await generateHtmlImage();
 })
@@ -141,6 +150,15 @@ onMounted(async () => {
 
 <template>
   <div class="min-h-[34rem] h-screen bg-[url(~/assets/image/dati/bg_cover.png)] bg-bottom bg-no-repeat bg-size-[18.75rem_34rem] relative">
+
+    <button @click="onClose"
+            class="fixed right-2 top-2 p-[0.15rem] rounded-full border-2 border-white text-white
+                         hover:bg-white hover:text-gray-800 hover:rotate-90 transition duration-300">
+      <svg class="w-[1.2rem] h-[1.2rem]" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+           xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
 
     <div class="min-h-[34rem] bg-black/85 flex flex-col items-center justify-center w-full h-screen mx-auto p-5 z-30">
       <div id="poster" class="popup-box w-full px-5 pt-2 pb-2 relative z-10 notch-circle">

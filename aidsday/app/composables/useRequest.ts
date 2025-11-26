@@ -21,7 +21,7 @@ export const useRequest = <ResT>(url: string, opts?: UseFetchOptions<ResponseTyp
             }
             if (process.env.NODE_ENV === 'development') {
                 //开发时设置默认 openid
-                openid.value = 'o-WGWwlaQu7Xrko7hTfG85anK83g';
+                openid.value = 'o-WGWwrmdn9Wf1VwdfumyG6oB4Eo';
                 options.query = {
                     ...options.query,
                     openid: openid.value,

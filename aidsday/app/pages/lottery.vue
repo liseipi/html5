@@ -10,7 +10,10 @@ const showWinModal = ref(false)
 const showLoseModal = ref(false)
 const plateRef = ref<HTMLElement | null>(null)
 
+let tip = ref(false);
 let prize = reactive({
+  is_prize: 0,
+  money: "0",
   can_prize: 0,
   name: '',
   prize_id: 6, // 1:谢谢参与，2:0.8，3:1.8，4:2.8，5:3.8，6:5.8
@@ -21,11 +24,14 @@ let prize = reactive({
 const winPositions = [180, 120, 60, 0, 300, 240]; // 度，0 为指针指向位置
 const amount = [0, 0.8, 1.8, 2.8, 3.8, 5.8];
 
-const startSpin = () => {
-  // if (prize.can_prize == 0) {
-  //   alert('您已经达到抽奖次数!');
-  //   return false;
-  // }
+const startSpin = async () => {
+  await getLucky();
+
+  // 不能抽奖提示
+  if (prize.is_prize == 0) {
+    tip.value = true;
+    return false;
+  }
 
   if (isSpinning.value) return // 防止重复点击
 
@@ -83,12 +89,9 @@ const closeModal = () => {
 //获取抽奖
 const getLucky = async () => {
   const res = await useRequest(`/wxh5/index/postPrize`);
-  console.log(res)
+  prize = Object.assign(prize, res.data);
 }
 
-onMounted(() => {
-  getLucky()
-})
 </script>
 
 <template>
@@ -180,6 +183,8 @@ onMounted(() => {
         </div>
       </div>
     </div>
+
+    <Toast v-if="tip" v-model:visible="tip" @close="tip = false" :message="prize.name" />
   </div>
 </template>
 
