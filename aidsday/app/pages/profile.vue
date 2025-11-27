@@ -51,10 +51,10 @@ const sendProfile = async () => {
 
 <template>
   <div class="min-h-screen flex flex-col items-center bg-cover bg-center bg-[#51BDDA] relative">
-    <img src="~/assets/image/profile/bg_cover.png" class="w-full" alt="bg">
+    <img src="~/assets/image/profile/bg_cover.png" class="h-screen w-full" alt="bg">
 
     <div class="absolute top-0 left-0 w-full px-6">
-      <h2 class="text-[1.2rem] font-normal text-white pt-[4rem] leading-tight">请选择您的身份</h2>
+      <h2 class="text-[1.2rem] font-normal text-white pt-[2rem] leading-tight">请选择您的身份</h2>
       <div class="flex gap-4 w-full max-w-xl pt-[1.6rem] mb-[1rem]">
         <div @click="setGender(1)" class="flex-1 cursor-pointer">
           <div class="flex flex-col items-center">

@@ -106,17 +106,17 @@ onMounted(() => {
 
 <template>
   <div class="min-h-screen flex flex-col items-center bg-cover bg-center relative">
-    <img src="~/assets/image/dati/bg_cover.png" class="w-full" alt="bg">
+    <img src="~/assets/image/dati/bg_cover.png" class="h-screen w-full" alt="bg">
 
     <img v-if="gender==1" src="~/assets/image/dati/boy.png"
-         class="absolute z-20 top-[4.6rem] w-[4.45rem] left-[2.25rem]" alt="boy">
+         class="absolute z-20 top-[2.6rem] w-[4.45rem] left-[2.25rem]" alt="boy">
     <img v-if="gender==2" src="~/assets/image/dati/girl.png"
-         class="absolute z-20 top-[4.6rem] w-[4.45rem] left-[2.25rem]" alt="girl">
+         class="absolute z-20 top-[2.6rem] w-[4.45rem] left-[2.25rem]" alt="girl">
 
     <img @click="showTipText" src="~/assets/image/dati/tips.png" v-if="questionData.length>0"
-         class="animate-bounce absolute top-[4.6rem] w-[4.6rem] right-0" alt="tips">
+         class="animate-bounce absolute top-[2rem] w-[4.6rem] right-0" alt="tips">
 
-    <div v-if="questionData.length>0" class="absolute top-[7.1rem] left-[8.1rem]">
+    <div v-if="questionData.length>0" class="absolute top-[5.1rem] left-[8.1rem]">
       <span class="font-medium font-sans text-[1.6rem] tracking-widest">
         <strong class="text-[#FFCA3C]">{{
             answerData.length + 1 > questionData.length ? questionData.length : answerData.length + 1
@@ -125,7 +125,7 @@ onMounted(() => {
       </span>
     </div>
 
-    <div class="absolute top-[10rem] left-0 w-full px-6">
+    <div class="absolute top-[8rem] left-0 w-full px-6">
       <div class="w-full max-w-lg bg-white rounded-3xl shadow-xl z-10 p-4">
         <div v-if="questionData.length==0"
              class="relative pt-[2rem] min-h-[20rem] text-[1rem] text-black text-center text-nowrap">

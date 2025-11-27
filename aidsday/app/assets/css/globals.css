@@ -21,7 +21,7 @@ body {
 .main {
     height: 100vh;
     max-width: 18.75rem;
-    min-height: 34rem;
+    min-height: var(--minHeight);
     margin: 0 auto;
     background-color: #52bdda;
 }

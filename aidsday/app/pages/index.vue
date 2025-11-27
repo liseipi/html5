@@ -40,14 +40,14 @@ onMounted(() => {
 <template>
   <div class="index-page">
     <div class="box">
-      <img src="~/assets/image/index/home.png" class="h-[40.6rem] w-full" alt="home">
+      <img src="~/assets/image/index/home.png" class="h-screen w-full" alt="home">
 
       <img src="~/assets/image/index/title.png"
-           class="absolute top-[3.9rem] left-[2.3rem] w-[14.1rem] animate-title"
+           class="absolute top-[1.9rem] left-[2.3rem] w-[14.1rem] animate-title"
            alt="title">
 
       <span
-          class="absolute right-0 top-[6.65rem] text-[0.7rem]
+          class="absolute right-0 top-[4.65rem] text-[0.7rem]
                w-[1.7rem] h-[4.2rem] bg-[#FFCA3C] hover:bg-yellow-500 rounded-s-lg
                flex items-center justify-center px-1 text-center leading-[0.85rem] text-white
                animate-rule-pulse cursor-pointer transition duration-300"
@@ -55,16 +55,16 @@ onMounted(() => {
       </span>
 
       <img src="~/assets/image/index/men.png"
-           class="absolute top-[14.5rem] left-[2.3rem] w-[6.2rem] animate-people"
+           class="absolute top-[12.5rem] left-[2.3rem] w-[5.8rem] animate-people"
            style="animation-delay: 0.2s; opacity: 0;" alt="men">
       <img src="~/assets/image/index/lady.png"
-           class="absolute top-[15.5rem] right-[3.05rem] w-[7.1rem] animate-people"
+           class="absolute top-[13.5rem] right-[3.05rem] w-[6.7rem] animate-people"
            style="animation-delay: 0.4s; opacity: 0;" alt="lady">
 
       <button
           @click="start"
           ref="gotoDom"
-          class="absolute top-[28.5rem] left-[3.4rem] flex items-center justify-center
+          class="absolute top-[25.5rem] left-[3.4rem] flex items-center justify-center
                  bg-[#FFCA3C] active:scale-[0.98] border-[#ffffff] border-[0.05rem]
                  text-white text-[1.2rem] font-bold
                  w-[12rem] h-[3rem]
@@ -79,11 +79,11 @@ onMounted(() => {
       </button>
 
       <div
-          class="absolute top-[35rem] left-[5.2rem] flex flex-col items-center text-center text-[#2A7B51] text-[0.65rem] font-bold">
+          class="absolute top-[31.4rem] left-[5.2rem] flex flex-col items-center text-center text-[#2A7B51] text-[0.65rem] font-bold">
         <span>广州市公共卫生委员会办公室</span>
         <span>（广州市卫生健康委员会）</span>
         <span>广州市卫生健康宣传教育中心</span>
-        <span class="pt-2">出品</span>
+        <span class="pt-1">出品</span>
       </div>
     </div>
 
@@ -147,13 +147,13 @@ onMounted(() => {
 <style scoped>
 .index-page {
   background-color: #89dffb;
-  height: 40.6rem;
+  height: var(--minHeight);
   min-height: 100vh;
   @apply flex justify-center items-end;
 }
 
 .box {
-  height: 40.6rem;
+  height: var(--minHeight);
   max-width: 18.75rem;
   margin: 0 auto;
   @apply relative;
