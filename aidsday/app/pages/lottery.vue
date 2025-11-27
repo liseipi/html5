@@ -16,7 +16,7 @@ let prize = reactive({
   money: "0",
   can_prize: 0,
   name: '',
-  prize_id: 6, // 1:谢谢参与，2:0.8，3:1.8，4:2.8，5:3.8，6:5.8
+  prize_id: 1, // 1:谢谢参与，2:0.8，3:1.8，4:2.8，5:3.8，6:5.8
   prizelog_id: '',
 });
 
@@ -25,13 +25,17 @@ const winPositions = [180, 120, 60, 0, 300, 240]; // 度，0 为指针指向位�
 const amount = [0, 0.8, 1.8, 2.8, 3.8, 5.8];
 
 const startSpin = async () => {
-  await getLucky();
+  let s = await getLucky();
+  if (!s) {
+    tip.value = true;
+    return
+  }
 
   // 不能抽奖提示
-  if (prize.is_prize == 0) {
-    tip.value = true;
-    return false;
-  }
+  // if (prize.is_prize == 0) {
+  //   tip.value = true;
+  //   return false;
+  // }
 
   if (isSpinning.value) return // 防止重复点击
 
@@ -89,7 +93,14 @@ const closeModal = () => {
 //获取抽奖
 const getLucky = async () => {
   const res = await useRequest(`/wxh5/index/postPrize`);
-  prize = Object.assign(prize, res.data);
+  console.log(res)
+  if (res && res.status && res.status != 0) {
+    prize.name = res.msg;
+    return false;
+  } else {
+    prize = Object.assign(prize, res.data);
+    return true;
+  }
 }
 
 </script>
@@ -140,7 +151,7 @@ const getLucky = async () => {
         </div>
         <div class="mb-[1rem] flex flex-col items-center">
           <span class="text-[0.7rem] text-gray-800 text-center mb-[2rem]">
-            获得 <span class="text-orange-500 font-bold text-3xl">{{amount[prize.prize_id-1]}}</span> 元红包</span>
+            获得 <span class="text-orange-500 font-bold text-3xl">{{ amount[prize.prize_id - 1] }}</span> 元红包</span>
           <span class="text-[0.65rem] text-[#999]">您的微信红包已发送，请在微信聊天界面查收</span>
         </div>
         <div class="text-center">
@@ -184,7 +195,7 @@ const getLucky = async () => {
       </div>
     </div>
 
-    <Toast v-if="tip" v-model:visible="tip" @close="tip = false" :message="prize.name" />
+    <Toast v-if="tip" v-model:visible="tip" @close="tip = false" :message="prize.name"/>
   </div>
 </template>
 
