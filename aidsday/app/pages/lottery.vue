@@ -31,12 +31,6 @@ const startSpin = async () => {
     return
   }
 
-  // 不能抽奖提示
-  // if (prize.is_prize == 0) {
-  //   tip.value = true;
-  //   return false;
-  // }
-
   if (isSpinning.value) return // 防止重复点击
 
   isSpinning.value = true
@@ -93,7 +87,7 @@ const closeModal = () => {
 //获取抽奖
 const getLucky = async () => {
   const res = await useRequest(`/wxh5/index/postPrize`);
-  console.log(res)
+  // console.log(res)
   if (res && res.status && res.status != 0) {
     prize.name = res.msg;
     return false;

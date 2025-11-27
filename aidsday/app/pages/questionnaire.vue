@@ -204,7 +204,7 @@ onMounted(() => {
 
         <hr class="border-t border-dashed border-gray-200 my-4"/>
 
-        <div class="flex items-center my-6">
+        <div v-show="can_prize==1" class="flex items-center my-6">
           <!--          <hr class="flex-grow border-gray-200">-->
           <span class="mx-auto text-[0.65rem] text-[#999] text-center whitespace-nowrap">快去抽取你的幸运红包吧!</span>
           <!--          <hr class="flex-grow border-gray-200">-->
