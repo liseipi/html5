@@ -213,7 +213,8 @@ onMounted(async () => {
           在防艾知识挑战赛中，你以卓越的表现，十题答对{{rightnum}}题，展现了全面、扎实的艾滋病防控知识素养。特授予你“防艾达人”的光荣称号。
         </p>
 
-        <img src="~/assets/image/qs/peers.png" class="h-[7.5rem] mx-auto" alt="peers">
+        <img v-if="rightnum>=8" src="~/assets/image/qs/expert.png" class="h-[7.5rem] mx-auto" alt="expert">
+        <img v-else src="~/assets/image/qs/peers.png" class="h-[7.5rem] mx-auto" alt="peers">
 
         <p class="pt-[2rem] text-[0.65rem] text-gray-400 leading-relaxed">
           愿你继续传递这份科学与关爱，共筑零歧视、零传播的未来。
