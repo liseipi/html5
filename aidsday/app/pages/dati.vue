@@ -150,7 +150,7 @@ onMounted(() => {
             </div>
           </div>
         </div>
-        <div v-show="answerData.length==questionData.length" class="min-h-[16rem]">
+        <div v-show="answerData.length==questionData.length && answerData.length > 0" class="min-h-[16rem]">
           <div class="flex items-center justify-center w-full p-5 bg-neutral-primary" data-component-loader="">
             <div role="status">
               <svg class="mr-3 -ml-1 size-5 animate-spin text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none"

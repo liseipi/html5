@@ -55,20 +55,20 @@ onMounted(() => {
       </span>
 
       <img src="~/assets/image/index/men.png"
-           class="absolute top-[12.5rem] left-[2.3rem] w-[5.8rem] animate-people"
+           class="absolute top-[14.5rem] left-[2.3rem] w-[5.8rem] animate-people"
            style="animation-delay: 0.2s; opacity: 0;" alt="men">
       <img src="~/assets/image/index/lady.png"
-           class="absolute top-[13.5rem] right-[3.05rem] w-[6.7rem] animate-people"
+           class="absolute top-[15.5rem] right-[3.05rem] w-[6.7rem] animate-people"
            style="animation-delay: 0.4s; opacity: 0;" alt="lady">
 
       <button
           @click="start"
           ref="gotoDom"
-          class="absolute top-[25.5rem] left-[3.4rem] flex items-center justify-center
+          class="absolute top-[28.5rem] left-[3.4rem] flex items-center justify-center
                  bg-[#FFCA3C] active:scale-[0.98] border-[#ffffff] border-[0.05rem]
                  text-white text-[1.2rem] font-bold
                  w-[12rem] h-[3rem]
-                 rounded-full shadow-lg
+                 rounded-full shadow-lg animate-people
           ">
         <span>点击进入挑战赛</span>
         <svg class="ml-1 w-6 h-6 sm:w-8 sm:h-8" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
@@ -79,7 +79,7 @@ onMounted(() => {
       </button>
 
       <div
-          class="absolute top-[32.5rem] left-[5.2rem] flex flex-col items-center text-center text-[#2A7B51] text-[0.65rem] font-bold">
+          class="absolute top-[34.5rem] left-[5.2rem] flex flex-col items-center text-center text-[#2A7B51] text-[0.65rem] font-bold">
         <span>广州市公共卫生委员会办公室</span>
         <span>（广州市卫生健康委员会）</span>
         <span>广州市卫生健康宣传教育中心</span>
