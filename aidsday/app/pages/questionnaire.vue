@@ -94,7 +94,7 @@ onMounted(() => {
 
 <template>
   <div
-      class="min-h-[34rem] h-screen bg-[url(~/assets/image/dati/bg_cover.png)] bg-bottom bg-no-repeat bg-size-[18.75rem_34rem] relative">
+      class="min-h-[34rem] h-screen bg-[url(~/assets/image/dati/bg_cover.png)] bg-bottom bg-no-repeat bg-cover relative">
     <!--    <img src="~/assets/image/dati/bg_cover.png" class="w-full" alt="bg">-->
 
     <!--调查问卷提示-->

@@ -188,7 +188,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="min-h-[34rem] h-screen bg-[url(~/assets/image/dati/bg_cover.png)] bg-bottom bg-no-repeat bg-size-[18.75rem_34rem] relative">
+  <div class="min-h-[34rem] h-screen bg-[url(~/assets/image/dati/bg_cover.png)] bg-bottom bg-no-repeat bg-cover relative">
 
     <button @click="onClose"
             class="fixed right-2 top-2 p-[0.15rem] rounded-full border-2 border-white text-white

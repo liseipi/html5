@@ -101,7 +101,7 @@ const getLucky = async () => {
 
 <template>
   <div
-      class="min-h-[34rem] h-screen bg-[url(~/assets/image/dati/bg_cover.png)] bg-bottom bg-no-repeat bg-size-[18.75rem_34rem] relative">
+      class="min-h-[34rem] h-screen bg-[url(~/assets/image/dati/bg_cover.png)] bg-bottom bg-no-repeat bg-cover relative">
     <img src="~/assets/image/lottery/title.png" class="w-[15.15rem] pt-[4.55rem] pb-[1rem] mx-auto" alt="title">
 
     <div class="relative flex flex-col pt-[0.8rem]">
