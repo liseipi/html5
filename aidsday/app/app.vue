@@ -81,9 +81,7 @@ wx.ready(function () {
 
 <template>
   <div class="main">
-    <NuxtLayout>
-      <NuxtPage />
-    </NuxtLayout>
+    <NuxtPage />
   </div>
 </template>
 

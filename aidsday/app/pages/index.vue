@@ -38,9 +38,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="index-page">
-    <div class="box">
-      <img src="~/assets/image/index/home.png" class="h-screen w-full" alt="home">
+  <div class="min-h-[40.6rem] h-screen bg-[url(~/assets/image/index/home.png)] bg-bottom bg-no-repeat bg-cover relative">
+    <div class="relative">
+<!--      <img src="~/assets/image/index/home.png" alt="home">-->
 
       <img src="~/assets/image/index/title.png"
            class="absolute top-[1.9rem] left-[2.3rem] w-[14.1rem] animate-title"
@@ -79,7 +79,7 @@ onMounted(() => {
       </button>
 
       <div
-          class="absolute top-[31.4rem] left-[5.2rem] flex flex-col items-center text-center text-[#2A7B51] text-[0.65rem] font-bold">
+          class="absolute top-[32.5rem] left-[5.2rem] flex flex-col items-center text-center text-[#2A7B51] text-[0.65rem] font-bold">
         <span>广州市公共卫生委员会办公室</span>
         <span>（广州市卫生健康委员会）</span>
         <span>广州市卫生健康宣传教育中心</span>
@@ -145,19 +145,6 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.index-page {
-  background-color: #89dffb;
-  height: var(--minHeight);
-  min-height: 100vh;
-  @apply flex justify-center items-end;
-}
-
-.box {
-  height: var(--minHeight);
-  max-width: 18.75rem;
-  margin: 0 auto;
-  @apply relative;
-}
 
 @keyframes title-wave {
   0% {

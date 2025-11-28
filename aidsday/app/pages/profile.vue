@@ -50,8 +50,8 @@ const sendProfile = async () => {
 </script>
 
 <template>
-  <div class="min-h-screen flex flex-col items-center bg-cover bg-center bg-[#51BDDA] relative">
-    <img src="~/assets/image/profile/bg_cover.png" class="h-screen w-full" alt="bg">
+  <div class="min-h-[35.6rem] h-screen bg-[url(~/assets/image/profile/bg_cover.png)] bg-bottom bg-no-repeat bg-cover bg-[#51BDDA] relative">
+<!--    <img src="~/assets/image/profile/bg_cover.png" class="h-screen w-full" alt="bg">-->
 
     <div class="absolute top-0 left-0 w-full px-6">
       <h2 class="text-[1.2rem] font-normal text-white pt-[2rem] leading-tight">请选择您的身份</h2>
