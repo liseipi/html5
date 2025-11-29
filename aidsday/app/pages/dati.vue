@@ -105,8 +105,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="min-h-screen flex flex-col items-center bg-cover bg-center relative">
-    <img src="~/assets/image/dati/bg_cover.png" class="h-screen w-full" alt="bg">
+<!--  <div class="min-h-screen flex flex-col items-center bg-cover bg-center relative">-->
+    <div class="min-h-[35.6rem] h-screen bg-[url(~/assets/image/dati/bg_cover.png)] bg-[#84e0fd] bg-bottom bg-no-repeat bg-cover relative">
+
+<!--    <img src="~/assets/image/dati/bg_cover.png" class="w-full" alt="bg">-->
 
     <img v-if="gender==1" src="~/assets/image/dati/boy.png"
          class="absolute z-20 top-[2.6rem] w-[4.45rem] left-[2.25rem]" alt="boy">
