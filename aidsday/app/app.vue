@@ -82,6 +82,7 @@ wx.ready(function () {
 <template>
   <div class="main">
     <NuxtPage />
+    <Music />
   </div>
 </template>
 
