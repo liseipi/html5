@@ -7,7 +7,7 @@ useHead({
 })
 
 const userInfoStore = useUserInfoStore();
-const {gender} = reactive({...userInfoStore});
+const {sex: gender} = reactive({...userInfoStore.userInfo});
 const datiStore = useDatiStore();
 
 let questionData = ref([]);
@@ -236,8 +236,8 @@ onMounted(() => {
     </div>
     <!--回答错误-->
     <div v-show="datiStatue&&!answerStatue"
-         class="fixed inset-0 bg-black/85 flex flex-col items-center justify-center p-6 z-50">
-      <div class="popup-box max-w-[18.75rem] px-6 pt-2 pb-6 relative">
+         class="fixed inset-0 bg-black/85 flex flex-col items-center justify-center p-4 z-50">
+      <div class="popup-box max-w-[18.75rem] px-4 pt-2 mt-[4rem] pb-6 relative">
         <div class="absolute left-[2rem] -top-[7rem]">
           <img v-show="gender==1" src="~/assets/image/dati/boy_mistake.png" class="w-[10.7rem]" alt="boy_mistake">
           <img v-show="gender==2" src="~/assets/image/dati/girl_mistake.png" class="w-[10.7rem]" alt="girl_mistake">
