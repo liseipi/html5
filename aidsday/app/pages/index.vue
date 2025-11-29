@@ -38,8 +38,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="min-h-[36.6rem] h-screen bg-[url(~/assets/image/index/home.png)] bg-bottom bg-no-repeat bg-cover relative">
-    <div class="relative">
+  <div class="min-h-[35.6rem] h-screen bg-[url(~/assets/image/index/home.png)] bg-[#84e0fd] bg-size-[100%] bg-bottom bg-no-repeat bg-contain relative">
+    <div class="relative h-[100%]">
 <!--      <img src="~/assets/image/index/home.png" alt="home">-->
 
       <img src="~/assets/image/index/title.png"
@@ -55,16 +55,16 @@ onMounted(() => {
       </span>
 
       <img src="~/assets/image/index/men.png"
-           class="absolute top-[14.5rem] left-[2.3rem] w-[5.8rem] animate-people"
+           class="absolute bottom-[5rem] left-[2.3rem] w-[5.8rem] animate-people"
            style="animation-delay: 0.2s; opacity: 0;" alt="men">
       <img src="~/assets/image/index/lady.png"
-           class="absolute top-[15.5rem] right-[3.05rem] w-[6.7rem] animate-people"
+           class="absolute bottom-[5rem] right-[3.05rem] w-[6.7rem] animate-people"
            style="animation-delay: 0.4s; opacity: 0;" alt="lady">
 
       <button
           @click="start"
           ref="gotoDom"
-          class="absolute top-[26.5rem] left-[3.4rem] flex items-center justify-center
+          class="absolute bottom-[8rem] left-[3.4rem] flex items-center justify-center
                  bg-[#FFCA3C] active:scale-[0.98] border-[#ffffff] border-[0.05rem]
                  text-white text-[1.2rem] font-bold
                  w-[12rem] h-[3rem]
@@ -79,7 +79,7 @@ onMounted(() => {
       </button>
 
       <div
-          class="absolute top-[31.5rem] left-[5.2rem] flex flex-col items-center text-center text-[#2A7B51] text-[0.65rem] font-bold">
+          class="absolute bottom-[1rem] left-[5.2rem] flex flex-col items-center text-center text-[#2A7B51] text-[0.65rem] font-bold">
         <span>广州市公共卫生委员会办公室</span>
         <span>（广州市卫生健康委员会）</span>
         <span>广州市卫生健康宣传教育中心</span>
