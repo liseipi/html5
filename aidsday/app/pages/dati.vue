@@ -115,8 +115,8 @@ onMounted(() => {
     <img v-if="gender==2" src="~/assets/image/dati/girl.png"
          class="absolute z-20 top-[2.6rem] w-[4.45rem] left-[2.25rem]" alt="girl">
 
-    <img @click="showTipText" src="~/assets/image/dati/tips.png" v-if="questionData.length>0"
-         class="animate-bounce absolute top-[2rem] w-[4.6rem] right-0" alt="tips">
+<!--    <img @click="showTipText" src="~/assets/image/dati/tips.png" v-if="questionData.length>0"-->
+<!--         class="animate-bounce absolute top-[2rem] w-[4.6rem] right-0" alt="tips">-->
 
     <div v-if="questionData.length>0" class="absolute top-[5.1rem] left-[8.1rem]">
       <span class="font-medium font-sans text-[1.6rem] tracking-widest">
@@ -178,41 +178,41 @@ onMounted(() => {
     </div>
 
     <!--学习防艾锦囊-->
-    <div v-show="showTip" class="fixed inset-0 bg-black/85 flex flex-col items-center justify-center p-6 z-50">
-      <div class="popup-box max-w-[18.75rem] px-6 pt-2 pb-6">
-        <div class="text-center mb-[1rem]">
-            <span
-                class="inline-flex items-center justify-center p-2 rounded-full relative">
-                <img src="~/assets/image/star.png" class="w-[0.9rem] mb-2" alt="star">
-                <span class="text-yellow-600 font-bold text-[0.85rem] px-2">
-                    防艾锦囊
-                </span>
-                <img src="~/assets/image/star.png" class="w-[0.6rem] mt-1" alt="star">
-            </span>
-        </div>
-        <div class="mb-[1rem]">
-          <div class="space-y-1 text-[0.7rem] text-gray-800" v-html="tipText?.tip"></div>
-        </div>
-        <div class="text-center">
-          <button @click="showTip=false" class="py-[0.65rem] px-[1.65rem] min-w-[10rem] text-white font-normal text-[0.75rem] rounded-full
-                           bg-yellow-400 hover:bg-yellow-500
-                           transition duration-150 ease-in-out shadow-md
-                           focus:outline-none focus:ring-4 focus:ring-yellow-300 focus:ring-opacity-50">
-            我已学习
-          </button>
-        </div>
-      </div>
+<!--    <div v-show="showTip" class="fixed inset-0 bg-black/85 flex flex-col items-center justify-center p-6 z-50">-->
+<!--      <div class="popup-box max-w-[18.75rem] px-6 pt-2 pb-6">-->
+<!--        <div class="text-center mb-[1rem]">-->
+<!--            <span-->
+<!--                class="inline-flex items-center justify-center p-2 rounded-full relative">-->
+<!--                <img src="~/assets/image/star.png" class="w-[0.9rem] mb-2" alt="star">-->
+<!--                <span class="text-yellow-600 font-bold text-[0.85rem] px-2">-->
+<!--                    防艾锦囊-->
+<!--                </span>-->
+<!--                <img src="~/assets/image/star.png" class="w-[0.6rem] mt-1" alt="star">-->
+<!--            </span>-->
+<!--        </div>-->
+<!--        <div class="mb-[1rem]">-->
+<!--          <div class="space-y-1 text-[0.7rem] text-gray-800" v-html="tipText?.tip"></div>-->
+<!--        </div>-->
+<!--        <div class="text-center">-->
+<!--          <button @click="showTip=false" class="py-[0.65rem] px-[1.65rem] min-w-[10rem] text-white font-normal text-[0.75rem] rounded-full-->
+<!--                           bg-yellow-400 hover:bg-yellow-500-->
+<!--                           transition duration-150 ease-in-out shadow-md-->
+<!--                           focus:outline-none focus:ring-4 focus:ring-yellow-300 focus:ring-opacity-50">-->
+<!--            我已学习-->
+<!--          </button>-->
+<!--        </div>-->
+<!--      </div>-->
 
-      <div class="pt-8">
-        <button @click="showTip=false"
-            class="mt-3 p-[0.15rem] rounded-full border-2 border-white text-white hover:bg-white hover:text-gray-800 transition">
-          <svg class="w-[1.5rem] h-[1.5rem]" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-               xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-          </svg>
-        </button>
-      </div>
-    </div>
+<!--      <div class="pt-8">-->
+<!--        <button @click="showTip=false"-->
+<!--            class="mt-3 p-[0.15rem] rounded-full border-2 border-white text-white hover:bg-white hover:text-gray-800 transition">-->
+<!--          <svg class="w-[1.5rem] h-[1.5rem]" fill="none" stroke="currentColor" viewBox="0 0 24 24"-->
+<!--               xmlns="http://www.w3.org/2000/svg">-->
+<!--            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>-->
+<!--          </svg>-->
+<!--        </button>-->
+<!--      </div>-->
+<!--    </div>-->
 
     <!--回答正确-->
     <div v-show="datiStatue&&answerStatue"

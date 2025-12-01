@@ -106,16 +106,16 @@ onMounted(() => {
               <ul class="text-gray-700 text-base space-y-3">
                 <li class="flex items-start">
                   <span class="text-xl leading-none mr-2">•</span>
-                  <span>挑战赛一共 <strong class="text-red-500">10 题</strong></span>
+                  <span>挑战赛一共 <strong class="text-red-500">12 题</strong></span>
                 </li>
                 <li class="flex items-start">
                   <span class="text-xl leading-none mr-2">•</span>
                   <span>答对 <strong class="text-green-600">8 题</strong> 即可抽红包！</span>
                 </li>
-                <li class="flex items-start">
-                  <span class="text-xl leading-none mr-2">•</span>
-                  <span>遇到困难？<strong class="text-blue-500">锦囊来助力！</strong></span>
-                </li>
+<!--                <li class="flex items-start">-->
+<!--                  <span class="text-xl leading-none mr-2">•</span>-->
+<!--                  <span>遇到困难？<strong class="text-blue-500">锦囊来助力！</strong></span>-->
+<!--                </li>-->
               </ul>
             </div>
             <div class="text-center">

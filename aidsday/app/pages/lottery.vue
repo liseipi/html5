@@ -146,7 +146,7 @@ const getLucky = async () => {
         <div class="mb-[1rem] flex flex-col items-center">
           <span class="text-[0.7rem] text-gray-800 text-center mb-[2rem]">
             获得 <span class="text-orange-500 font-bold text-3xl">{{ amount[prize.prize_id - 1] }}</span> 元红包</span>
-          <span class="text-[0.65rem] text-[#999]">您的微信红包已发送，请在微信聊天界面查收</span>
+          <span class="text-[0.65rem] text-[#999]">微信红包将在24小时内发送，请在微信聊天界面查收</span>
         </div>
         <div class="text-center">
           <button @click="closeModal" class="py-[0.45rem] px-[4.35rem] min-w-[10rem] text-white font-normal text-[0.8rem] rounded-full
