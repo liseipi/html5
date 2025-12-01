@@ -140,7 +140,7 @@ onMounted(() => {
             <div class="space-y-[0.8rem] py-[1.2rem]">
               <div v-for="(option, i) in item.option" :key="i" @click="changeOption(option, item)"
                    v-show="option.content"
-                   class="px-4 py-2 rounded-xl shadow-sm hover:border-blue-400 flex"
+                   class="px-4 py-2 rounded-xl shadow-sm flex"
                    :class="{
                       'border-[0.05rem] border-[#FFCA3C] bg-yellow-50': optionKey === option.key,
                       'border border-gray-200': optionKey != option.key,
