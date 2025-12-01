@@ -13,7 +13,7 @@ let qsTip = ref(true);
 let qsDom = ref(false);
 let statue = ref(false);
 
-const {rightnum, can_prize} = reactive({...datiStore.dati});
+const {rightnum, can_prize, have_questionnairelog} = reactive({...datiStore.dati});
 
 //第1步，确定
 const sure = () => {
@@ -59,35 +59,36 @@ const getQuestion = async () => {
 
 //选择答题项
 const changeOption = (option, item) => {
-  const existingIndex = answerData.value.findIndex(entry => entry.questionbank_ids === item.id);
+  const existingIndex = answerData.value.findIndex(entry => entry.questionnaire_ids === item.id);
   if (existingIndex !== -1) {
     answerData.value[existingIndex].answer = option.key;
   } else {
-    answerData.value.push({questionbank_ids: item.id, answer: option.key});
+    answerData.value.push({questionnaire_ids: item.id, answer: option.key});
   }
 }
 
 //提交问卷
 const postAnswer = async () => {
-  let questionbank_ids = answerData.value.map(item => item.questionbank_ids).join(',');
+  let questionnaire_ids = answerData.value.map(item => item.questionnaire_ids).join(',');
   let answer = answerData.value.map(item => item.answer).join(',');
   const res = await useRequest(`/wxh5/index/postQuestionnaire`, {
     method: 'POST',
     headers: {
       'Content-Type': 'multipart/form-data', // 开启后，上传文件会出错
     },
-    query: {questionbank_ids, answer}
+    query: {questionnaire_ids, answer}
   });
 }
 
 //初始
 onMounted(() => {
-  if (userInfoStore.qsDone) {
+  if (have_questionnairelog == 0) {
+    getQuestion();
+  } else {
     qsTip.value = false;
     statue.value = true;
   }
 
-  getQuestion();
 })
 
 </script>
