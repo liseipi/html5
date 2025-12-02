@@ -7,6 +7,7 @@ export const useRequest = <ResT>(url: string, opts?: UseFetchOptions<ResponseTyp
 
     const defaultOptions = {
         baseURL: config.public.baseURL,
+        timeout: 8000,
         onRequest({options}: { options: any }) {
             options.headers = {
                 ...options.headers,
@@ -46,6 +47,7 @@ export const useRequest = <ResT>(url: string, opts?: UseFetchOptions<ResponseTyp
                 //resolve(res as ResponseType<ResT>);
             })
             .catch((err) => {
+                console.log(err)
                 reject(err);
             });
     });
