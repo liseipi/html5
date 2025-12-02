@@ -46,6 +46,7 @@ const sendProfile = async () => {
       age: age
     }
   });
+  userInfoStore.setUserInfo({...userInfoStore.userInfo, age: userInfoStore.age, sex: userInfoStore.gender});
 }
 </script>
 
