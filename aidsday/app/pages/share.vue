@@ -210,7 +210,7 @@ onMounted(async () => {
         </div>
 
         <p class="text-[0.65rem] text-gray-800 leading-relaxed">
-          在防艾知识挑战赛中，你以卓越的表现，十题答对{{rightnum}}题，展现了全面、扎实的艾滋病防控知识素养。特授予你“防艾达人”的光荣称号。
+          在防艾知识挑战赛中，你答对{{rightnum}}题，展现了全面、扎实的艾滋病防控知识素养。特授予你“防艾达人”的光荣称号。
         </p>
 
         <img v-if="rightnum>=8" src="~/assets/image/qs/expert.png" class="h-[7.5rem] mx-auto" alt="expert">
