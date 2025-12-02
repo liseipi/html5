@@ -7,7 +7,7 @@ export default defineNuxtConfig({
     app: {
         baseURL: '/html/',
         head: {
-            title: '世界艾滋病日',
+            title: '防艾达人挑战赛',
             meta: [
                 {charset: 'utf-8'},
                 {name: 'viewport', content: 'width=device-width, initial-scale=1, user-scalable=no'},

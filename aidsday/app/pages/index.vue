@@ -80,8 +80,6 @@ onMounted(() => {
 
       <div
           class="absolute bottom-[1rem] left-[5.2rem] flex flex-col items-center text-center text-[#2A7B51] text-[0.65rem] font-bold">
-        <span>广州市公共卫生委员会办公室</span>
-        <span>（广州市卫生健康委员会）</span>
         <span>广州市卫生健康宣传教育中心</span>
         <span class="pt-1">出品</span>
       </div>
