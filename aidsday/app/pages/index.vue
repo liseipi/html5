@@ -24,9 +24,13 @@ let start = () => {
 }
 
 //获取用户配置
+let is_close = ref(false)
+let act_txt = ref('')
 const getConfig = async () => {
   const config = await useRequest<any>(`/wxh5/Index/getConfig`);
   userInfoStore.setUserInfo(config.data.userinfo);
+  is_close.value = config.data.is_close == 1;
+  act_txt.value = config.data.tip;
 }
 
 onMounted(() => {
@@ -139,6 +143,27 @@ onMounted(() => {
         </div>
       </div>
     </Transition>
+
+    <!--活动时间提示-->
+    <div v-if="is_close" class="fixed inset-0 bg-black/85 flex flex-col items-center justify-center p-6 z-50">
+      <div
+          class="popup-box w-full max-w-[18.75rem] px-6 pt-2 pb-6 bg-white rounded-xl shadow-2xl">
+        <div class="text-center mb-6">
+                <span
+                    class="inline-flex items-center justify-center p-2 rounded-full relative">
+                    <img src="~/assets/image/star.png" class="w-[0.9rem] mb-2" alt="star">
+                    <span class="text-yellow-600 font-bold text-[0.85rem] px-2">
+                        温馨提示
+                    </span>
+                    <img src="~/assets/image/star.png" class="w-[0.6rem] mt-1" alt="star">
+                </span>
+        </div>
+        <div class="space-y-4 mb-8">
+          <div class="text-[0.8rem] text-[#333]">{{act_txt}}</div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 

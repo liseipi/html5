@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed z-50 top-1 right-1">
+  <div class="fixed z-40 top-1 right-1">
     <button
         @click="toggleMusic"
         :class="buttonClasses"
