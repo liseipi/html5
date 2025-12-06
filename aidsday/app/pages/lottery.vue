@@ -25,15 +25,17 @@ const winPositions = [180, 120, 60, 0, 300, 240]; // 度，0 为指针指向位�
 const amount = [0, 0.8, 1.8, 2.8, 3.8, 5.8];
 
 const startSpin = async () => {
-  let s = await getLucky();
-  if (!s) {
-    tip.value = true;
-    return
-  }
-
   if (isSpinning.value) return // 防止重复点击
 
   isSpinning.value = true
+
+  let s = await getLucky();
+  if (!s) {
+    tip.value = true;
+    isSpinning.value = false;
+    return
+  }
+
   showWinModal.value = false
   showLoseModal.value = false
 
