@@ -177,8 +177,8 @@ const getLucky = async () => {
         </div>
         <div class="mb-[1rem] flex flex-col items-center">
           <span class="text-[1rem] text-gray-800 text-center mb-[1rem]">感谢你的参与</span>
-          <span
-              class="text-[0.65rem] text-[#999] text-center">偷偷告诉你，没抽中的玩家在活动期内每天都可以答题抽奖赢红包哦！</span>
+<!--          <span-->
+<!--              class="text-[0.65rem] text-[#999] text-center">偷偷告诉你，没抽中的玩家在活动期内每天都可以答题抽奖赢红包哦！</span>-->
         </div>
         <div class="text-center">
           <button @click="closeModal" class="py-[0.45rem] px-[4.35rem] min-w-[10rem] text-white font-normal text-[0.8rem] rounded-full
