@@ -249,8 +249,8 @@ onMounted(() => {
 
         <div class="flex items-center my-6">
           <!--          <hr class="flex-grow border-gray-200">-->
-          <span
-              class="mx-auto text-[0.65rem] text-[#999] text-center whitespace-nowrap">挑战成功就会赢取抽幸运红包机会哦！</span>
+<!--          <span-->
+<!--              class="mx-auto text-[0.65rem] text-[#999] text-center whitespace-nowrap">挑战成功就会赢取抽幸运红包机会哦！</span>-->
           <!--          <hr class="flex-grow border-gray-200">-->
         </div>
 
